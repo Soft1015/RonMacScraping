@@ -1,0 +1,50 @@
+# Investment Variables
+purchase_price = float(input("Enter the purchase price: "))
+market_rent = float(input("Enter the market rent: "))
+appreciation_rate = float(input("Enter the appreciation rate (as a decimal): "))
+property_tax_rate = float(input("Enter the property tax rate (as a decimal): "))
+capex = float(input("Enter the expected capital expenditures: "))
+maintenance_cost = float(input("Enter the monthly maintenance cost: "))
+acquisition_cost = float(input("Enter the closing cost for acquisition: "))
+divestment_cost = float(input("Enter the closing cost for divestment: "))
+investment_period = int(input("Enter the investment period (in years): "))
+
+# Mortgage Variables
+mortgage = input("Is there a mortgage (yes or no)? ")
+if mortgage.lower() == "yes":
+    loan_amount = float(input("Enter the loan amount: "))
+    interest_rate = float(input("Enter the interest rate (as a decimal): "))
+    interest_only = input("Is this an interest-only mortgage (yes or no)? ")
+    if interest_only.lower() == "yes":
+        monthly_payment = loan_amount * interest_rate / 12
+    else:
+        term = int(input("Enter the loan term (in years): "))
+        ltv = float(input("Enter the loan-to-value ratio (as a decimal): "))
+        monthly_interest_rate = interest_rate / 12
+        num_payments = term * 12
+        monthly_payment = (loan_amount * monthly_interest_rate) / (1 - (1 + monthly_interest_rate)**(-num_payments))
+    dscr = (market_rent * 12) / (monthly_payment * 12)
+else:
+    loan_amount = 0
+    monthly_payment = 0
+    dscr = None
+
+# Calculate Investment Returns
+total_rent = market_rent * 12 * investment_period
+total_expenses = (property_tax_rate + maintenance_cost/12) * purchase_price * investment_period + capex
+total_loan_payments = monthly_payment * investment_period * 12
+net_profit = total_rent - total_expenses - total_loan_payments - acquisition_cost - divestment_cost
+equity_investment = purchase_price - loan_amount
+yield_on_cost = net_profit / equity_investment
+cash_on_cash_return = net_profit / (equity_investment + acquisition_cost)
+equity_multiple = (net_profit + equity_investment) / equity_investment
+irr = (net_profit + equity_investment) / equity_investment**(1/investment_period) - 1
+
+# Print Results
+print("\nInvestment Returns:")
+print("Yield on Cost: {:.2%}".format(yield_on_cost))
+print("Cash on Cash Return: {:.2%}".format(cash_on_cash_return))
+print("Equity Multiple: {:.2f}".format(equity_multiple))
+print("IRR: {:.2%}".format(irr))
+if dscr:
+    print("DSCR: {:.2f}".format(dscr))

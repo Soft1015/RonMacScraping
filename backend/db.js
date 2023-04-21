@@ -1,18 +1,24 @@
 const { MongoClient, ObjectId } = require('mongodb')
 
 const connectionUrl = 'mongodb://localhost:27017'
-const dbName = 'store'
+const dbName = 'db_scrape'
 
 let db
 
 const init = () =>
   MongoClient.connect(connectionUrl, { useNewUrlParser: true }).then((client) => {
     db = client.db(dbName)
+    console.log('MongoDB is connected suceesfully!')
   })
 
 const insertItem = (item) => {
   const collection = db.collection('items')
   return collection.insertOne(item)
+}
+
+const insertMultiItems = (item) => {
+  const collection = db.collection('items')
+  return collection.insertMany(item)
 }
 
 const getItems = () => {
@@ -25,4 +31,4 @@ const updateQuantity = (id, quantity) => {
   return collection.updateOne({ _id: ObjectId(id) }, { $inc: { quantity } })
 }
 
-module.exports = { init, insertItem, getItems, updateQuantity }
+module.exports = { init, insertItem, getItems, insertMultiItems, updateQuantity }

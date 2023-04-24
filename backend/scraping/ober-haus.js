@@ -22,7 +22,6 @@ const UrlList = [
 ];
 
 const getData = async () => {
-
     let scrapeData = [];
     for(var i = 0; i < UrlList.length; i ++){
 

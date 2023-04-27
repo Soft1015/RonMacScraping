@@ -4,19 +4,19 @@ const { insertMultiItems } = require('../db')
 
 const UrlList = [
     {
-        url: 'https://lt.balticsothebysrealty.com/turto-paieska/?action=sale&id=&stype=map&parish%5B0%5D=&city%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=apartment&distinctive=&international=&new_development=&price_min=0&price_max=12000000&area_min=0&area_max=3656',
+        url: 'https://lt.balticsothebysrealty.com/en/find-a-property/?action=sale&id=&stype=map&county%5B0%5D=&parish%5B0%5D=&city%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=apartment&distinctive=&international=&new_development=&price_min=0&price_max=12000000&area_min=0&area_max=3656#sort-block',
         type:'0'
     },
     {
-        url: 'https://lt.balticsothebysrealty.com/turto-paieska/?action=sale&id=&stype=map&parish%5B0%5D=&city%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=house&distinctive=&international=&new_development=&price_min=0&price_max=12000000&area_min=0&area_max=3656',
+        url: 'https://lt.balticsothebysrealty.com/en/find-a-property/?action=sale&id=&stype=map&parish%5B0%5D=&city%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=house&distinctive=&international=&new_development=&price_min=0&price_max=12000000&area_min=0&area_max=3656#sort-block',
         type:'1'
     },
     {
-        url: 'https://ee.balticsothebysrealty.com/en/find-a-property/?action=rent&id=&stype=map&parish%5B0%5D=&city%5B0%5D=&district%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=apartment&distinctive=&international=&new_development=&price_min=0&price_max=5300000&area_min=0&area_max=2600',
+        url: 'https://lt.balticsothebysrealty.com/en/find-a-property/?action=rent&id=&stype=map&county%5B0%5D=&parish%5B0%5D=&city%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=apartment&distinctive=&international=&new_development=&price_min=0&price_max=12000000&area_min=0&area_max=3656#sort-block',
         type:'2'
     },
     {
-        url: 'https://ee.balticsothebysrealty.com/en/find-a-property/?action=rent&id=&stype=map&parish%5B0%5D=&city%5B0%5D=&district%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=house&distinctive=&international=&new_development=&price_min=0&price_max=5300000&area_min=0&area_max=2600',
+        url: 'https://lt.balticsothebysrealty.com/en/find-a-property/?action=rent&id=&stype=map&parish%5B0%5D=&city%5B0%5D=&street%5B0%5D=&broker=&type%5B0%5D=house&distinctive=&international=&new_development=&price_min=0&price_max=12000000&area_min=0&area_max=3656#sort-block',
         type:'3'
     }
 ];
@@ -51,7 +51,12 @@ const getDataBaltic = async () => {
                     const area = item.d.split(' ');
                     let price = item.price.split('€')[0];
                     price = price.replace(/\s/g, '');
-                    const rooms = area[area.length - 1].split('b')[0];
+                    let rooms = 1;
+                    for(let j = 0; j < area.length; j ++){
+                        if(area[j].includes('bedroom')){
+                            rooms = area[j].split('bedroom')[0];
+                        }
+                    }
                     obj.type = UrlList[i]?.type;
                     obj.priceEUR = price;
                     obj.adressline = item.a;
@@ -66,11 +71,9 @@ const getDataBaltic = async () => {
             }
         });
     }
-
     if(scrapeData){
         insertMultiItems(scrapeData);
     }
-
 };
 
 module.exports = { getDataBaltic };

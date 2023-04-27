@@ -1,46 +1,131 @@
 const fetch = require("node-fetch");
 const { JSDOM } = require("jsdom");
-const { insertMultiItems } = require('../db')
+const { insertMultiItems } = require("../db");
+const fs = require("fs");
+const unitLen = 6;
+const UrlList = [
+  {
+    url: "https://www.remax.lt/zemelapis?order=&search=1&type=apartment-sell&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=",
+    type: "0",
+  },
+  {
+      url: 'https://www.remax.lt/zemelapis?order=&search=1&type=house-sell&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
+      type:'1'
+  },
+  {
+      url: 'https://www.remax.lt/zemelapis?order=&search=1&type=apartment-rent&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
+      type:'2'
+  },
+  {
+      url: 'https://www.remax.lt/zemelapis?order=&search=1&type=house-rent&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
+      type:'3'
+  }
+];
 
-// const UrlList = [
-//     {
-//         url: 'https://www.ober-haus.lt/en/apartments-for-sale/?f_ad_type=Apartment&f_investment_type&f_object_purpose&f_plot_purpose&f_deal_type=Sale&f_keyword&f_city&f_districts&f_streets&f_price_min&f_price_max&f_rooms_min&f_rooms_max&f_area_min&f_area_max&f_plot_area_min&f_plot_area_max&f_floors_min&f_floors_max&f_floor_type&f_build_year_from&f_build_year_to&f_material&f_heating_type&f_condition&f_object_nr&map=true',
-//         type:'0'
-//     },
-//     {
-//         url: 'https://www.ober-haus.lt/en/houses-for-sale/?f_ad_type=House&f_investment_type&f_object_purpose&f_plot_purpose&f_deal_type=Sale&f_keyword&f_city&f_districts&f_streets&f_price_min&f_price_max&f_rooms_min&f_rooms_max&f_area_min&f_area_max&f_plot_area_min&f_plot_area_max&f_floors_min&f_floors_max&f_floor_type&f_build_year_from&f_build_year_to&f_material&f_heating_type&f_condition&f_object_nr&map=true',
-//         type:'1'
-//     },
-//     {
-//         url: 'https://www.ober-haus.lt/en/apartments-for-rent/?f_ad_type=Apartment&f_investment_type&f_object_purpose&f_plot_purpose&f_deal_type=Rental&f_keyword&f_city&f_districts&f_streets&f_price_min&f_price_max&f_rooms_min&f_rooms_max&f_area_min&f_area_max&f_plot_area_min&f_plot_area_max&f_floors_min&f_floors_max&f_floor_type&f_build_year_from&f_build_year_to&f_material&f_heating_type&f_condition&f_object_nr&map=true',
-//         type:'2'
-//     },
-//     {
-//         url: 'https://www.ober-haus.lt/en/houses-for-rent/?f_ad_type=House&f_investment_type&f_object_purpose&f_plot_purpose&f_deal_type=Rental&f_keyword&f_city&f_districts&f_streets&f_price_min&f_price_max&f_rooms_min&f_rooms_max&f_area_min&f_area_max&f_plot_area_min&f_plot_area_max&f_floors_min&f_floors_max&f_floor_type&f_build_year_from&f_build_year_to&f_material&f_heating_type&f_condition&f_object_nr&map=true',
-//         type:'3'
-//     }
-// ];
-
-const getData = async () => {
-
-    // let scrapeData = [];
-    // for(var i = 0; i < UrlList.length; i ++){
-
-        let response = null;
-        try {
-            response = await fetch(UrlList[i]?.url, {method: "get"});
-        } catch (err) {
-            console.log(err);
-        }
-        const result = await response.text();
-        const dom = new JSDOM(result);
-        
+const getRemaxData = async () => {
+  let scrapeData = [];
+  for (var i = 0; i < UrlList.length; i++) {
+    let response = null;
+    try {
+      response = await fetch(UrlList[i]?.url + "1");
+    } catch (err) {
+      console.log(err);
     }
+    const result = await response.text();
+    const dom = new JSDOM(result);
+    let length = dom.window.document.querySelector(
+      "body > div.site > div.site-center.bg-grey > section.map-section > div.map-section__list > div:nth-child(2) > div > div.map-list__title > strong"
+    );
+    let val = await getDetailOfRoom(length.textContent, UrlList[i].url, UrlList[i].type);
+    scrapeData = scrapeData.concat(val);
+  }
 
-//     if(scrapeData){
-//         insertMultiItems(scrapeData);
-//     }
+    if(scrapeData){
+        insertMultiItems(scrapeData);
+    }
+};
 
-// };
+const getDetailOfRoom = async (length, url, type) => {
+  let partData = [];
+  for (let i = 0; i < length / unitLen; i++) {
+    console.log(
+      "processing: " + (i + 1) + " of " + Math.ceil(length / unitLen) + " on Remax"
+    );
+    let response = null;
+    try {
+      response = await fetch(url + (i + 1));
+    } catch (err) {
+      console.log(err);
+    }
+    try {
+      const result = await response.text();
+      const dom = new JSDOM(result);
+      let map = dom.window.document.querySelector(".map-frame");
+      const pos = JSON.parse(map.getAttribute("data-clusters"));
+      const items = dom.window.document.querySelectorAll(
+        "body > div.site > div.site-center.bg-grey > section.map-section > div.map-section__list > div:nth-child(2) > div > div.map-section__list-inner > div a"
+      );
+      let posDetail = [];
+      for (let j = 0; j < pos.length; j++) {
+        if (Array.isArray(pos[j])) {
+          pos[j].map((item) => {
+            posDetail.push(item);
+          });
+        } else {
+          posDetail.push(pos[j]);
+        }
+      }
+      for (let j = 0; j < posDetail.length; j++) {
+        const obj = {};
+        let urlRegex = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/;
+        const addrRegex = /^\s*(.*?)\s*$/;
+        let src = items[j].querySelector("div:nth-child(1)").style.backgroundImage.match(urlRegex);
+        if(Array.isArray(src)){
+            src = src[1];
+        }else{
+            src = "";
+        }
+        let lis = items[j].querySelectorAll("ul > li");
+        let area = "", rooms = "1";
+        switch(lis.length){
+            case 2:
+                area = items[j].querySelector("ul > li:nth-child(2)");
+                break;
+            case 3:
+                if(type == '3')
+                    area = items[j].querySelector("ul > li:nth-child(2)");
+                else
+                    area = items[j].querySelector("ul > li:nth-child(3)");
+                rooms = items[j].querySelector("ul > li:nth-child(1)").textContent;
+                break;
+            case 4:
+                area = items[j].querySelector("ul > li:nth-child(3)");
+                rooms = items[j].querySelector("ul > li:nth-child(1)").textContent;
+                break;
+        }
+        let addr = items[j].querySelector("div:nth-child(2) > div:nth-child(2)").textContent.replace(/(\r\n|\n|\r|\t)/gm, "");
+        if(area){
+            area = area.textContent.replace(/\s/g, "");
+            area = area.split("m²")[0];
+        }
+        addr = addr.match(addrRegex)[1];
+        //insert detail to obj
+        obj.priceEUR = posDetail[j].price;
+        obj.type = type;
+        obj.x = posDetail[j].lat;
+        obj.y = posDetail[j].lon;
+        obj.adressline = addr.replace(/\s+/g, " ");
+        obj.title = "";
+        obj.img = src;
+        obj.area = area;
+        obj.rooms = rooms;
+        partData.push(obj);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  return partData;
+};
 
-module.exports = { getData };
+module.exports = { getRemaxData };

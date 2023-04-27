@@ -3,6 +3,9 @@ const bodyParser = require("body-parser");
 const { init } = require("./db");
 const { getData } = require("./scraping/ober-haus");
 const { getDataBaltic } = require("./scraping/baltic");
+const { getDataCapital } = require('./scraping/capital')
+const { getDataRebaltic } = require('./scraping/rebaltic');
+const { getRemaxData } = require('./scraping/remax');
 
 const routes = require("./routes");
 
@@ -12,6 +15,6 @@ app.use(routes);
 
 init().then(() => {
   console.log("starting server on port 3000");
-  getDataBaltic();
+  getRemaxData();
   app.listen(3000);
 });

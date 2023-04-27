@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="shortcut icon" href="/img/favicon.ico" sizes="16x16">
+        <title>NT žemėlapis | RE/MAX</title>
+                                    <link rel="stylesheet" href="/build/app.c901e1c4.css">
+        
+                    <script src="/build/runtime.226f6bb9.js" defer></script><script src="/build/head_scripts.151f1997.js" defer></script>
+                <!-- Google Analytics -->
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-57911365-1', 'auto');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+
+        <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-TS2MC5"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+
+        <!-- Facebook Pixel Code -->
+        <script>
+            !function (f, b, e, v, n, t, s) {
+                if (f.fbq) return;
+                n = f.fbq = function () {
+                    n.callMethod ?
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                };
+
+                if (!f._fbq) f._fbq = n;
+                n.push = n;
+                n.loaded = !0;
+                n.version = '2.0';
+
+                n.queue = [];
+                t = b.createElement(e);
+                t.async = !0;
+
+                t.src = v;
+                s = b.getElementsByTagName(e)[0];
+
+                s.parentNode.insertBefore(t, s)
+            }(window, document, 'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '356129734926619');
+            fbq('track', 'PageView');
+        </script>
+        <noscript>
+            <img height="1" width="1"
+                 src="https://www.facebook.com/tr?id=356129734926619&ev=PageView&noscript=1"/>
+        </noscript>
+        <!-- End Facebook Pixel Code -->
+    </head>
+    <body >
+        <script>
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '739733403081148',
+                    autoLogAppEvents: true,
+                    xfbml: true,
+                    version: 'v2.12'
+                });
+            };
+
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <div class="site">
+
+            <nav class="main-navigation"><a href="#" class="main-navigation__close"><span class="icon-remove-o"></span>MENIU</a>
+    <ul class="menu main-navigation__menu">
+        <li><a href="/" class="">Titulinis</a>
+        </li>
+                <li><a href="https://pardavimas.remax.lt/?ref=menu">Norintiems parduoti NT</a>
+        </li>
+        <li><a href="/paieska" class="">Nekilnojamasis
+                turtas</a></li>
+        <li><a href="/zemelapis" class="active">NT žemėlapis</a></li>
+        <li><a href="/biurai" class="">Biurai ir
+                brokeriai</a></li>
+        <li><a href="/fransize" class="">Franšizė</a>
+        </li>
+        <li><a href="/apie-mus" class="">Apie mus</a>
+        </li>
+        <li><a href="https://www.remax.lt/karjera/" target="_blank">Karjera</a></li>
+        <li><a href="/kontaktai" class="">Kontaktai</a></li>
+        </li>
+        <li>
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'lt',
+                        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                    }, 'google_translate_element');
+                }
+            </script>
+            <script type="text/javascript"
+                    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+        </li>
+    </ul>
+</nav>
+<div data-site-overlay class="site-overlay"></div>
+<div class="site-header">
+    <div class="site-block clearfix">
+        <ul class="menu main-menu">
+            <li><a href="#" class="toggle-menu"><span class="icon-meniu"></span><p>MENIU</p></a></li>
+            <li class="favorites-menu-item favorites hidden">
+                <a data-fancybox-favorites="ajax" data-src="/api/favorite/get/popup" data-type="ajax"
+                   href="javascript:;"><span class="icon-heart-full"></span>Mėgstamiausi</a>
+            </li>
+                                        <li class="mobile-search-toggle">
+                    <a href="#search-form" data-fancybox data-options='{"touch" : false}'>
+                        <span class="icon-search"></span>
+                        Paieška
+                    </a>
+                </li>
+                    </ul>
+        <a href="https://pardavimas.remax.lt/?ref=header" class="header__want-to-sell-button">Noriu parduoti</a>
+        <a href="/paieska" class="header__want-to-buy-button">Noriu pirkti</a>
+        <a href="/" class="main-logo fr"><img src="/img/main-logo.png"></a>
+    </div>
+</div>
+            
+    <div class="site-center bg-grey">
+        <section style="background-image: url(img/title-bg-1.jpg);" class="page-title-section map-search-section">
+            <div class="site-block">
+                <form class="form-default form-search show-once-ready" id="search-form" data-main-form action="/zemelapis">
+    <button data-fancybox-close="" class="fancybox-close-small" title="Close"></button>
+    <input type="hidden" id="order" name="order" value="">
+    <input type="hidden" name="search" value="1">
+    <div class="form-search__inner">
+        <div class="row">
+            <div class="col-1-of-3">
+                <div class="form-row">
+                    <select data-type-select class="custom-select" name="type">
+                        <option value="0">Visi skelbimai</option>
+                        <option value="apartment-sell"
+                                selected>Butai pardavimui
+                        </option>
+                        <option value="house-sell" >
+                            Namai pardavimui
+                        </option>
+                        <option value="land-sell" >
+                            Sklypai
+                        </option>
+                        <option value="premises-sell"
+                                >Patalpos
+                            pardavimui
+                        </option>
+                        <option value="garage-sell"
+                                >Garažai pardavimui
+                        </option>
+                        <option value="apartment-rent"
+                                >Butai nuomai
+                        </option>
+                        <option value="house-rent" >
+                            Namai nuomai
+                        </option>
+                        <option value="premises-rent"
+                                >Patalpos nuomai
+                        </option>
+                        <option value="garage-rent"
+                                >Garažai nuomai
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-1-of-3">
+                <div class="form-row">
+                    <select data-region-select name="region" class="custom-select">
+                        <option value="0">Pasirinkite miestą</option>
+                                                    <option value="2"
+                                                                        data-region="2">Vilniaus m. sav.</option>
+                                                    <option value="12"
+                                                                        data-region="12">Kauno m. sav.</option>
+                                                    <option value="13"
+                                                                        data-region="13">Klaipėdos m. sav.</option>
+                                                    <option value="8"
+                                                                        data-region="8">Šiaulių m. sav.</option>
+                                                    <option value="9"
+                                                                        data-region="9">Panevėžio m. sav.</option>
+                                                    <option value="14"
+                                                                        data-region="14">Palangos m. sav.</option>
+                                                    <option value="3"
+                                                                        data-region="3">Vilniaus r. sav.</option>
+                                                    <option value="4"
+                                                                        data-region="4">Trakų r. sav.</option>
+                                                    <option value="5"
+                                                                        data-region="5">Telšių r. sav.</option>
+                                                    <option value="6"
+                                                                        data-region="6">Šiaulių r. sav.</option>
+                                                    <option value="7"
+                                                                        data-region="7">Radviliškio r. sav.</option>
+                                                    <option value="10"
+                                                                        data-region="10">Panevėžio r. sav.</option>
+                                                    <option value="11"
+                                                                        data-region="11">Kėdainių r. sav.</option>
+                                                    <option value="15"
+                                                                        data-region="15">Šilutės r. sav.</option>
+                                                    <option value="16"
+                                                                        data-region="16">Kretingos r. sav.</option>
+                                                    <option value="17"
+                                                                        data-region="17">Vilkaviškio r. sav.</option>
+                                                    <option value="18"
+                                                                        data-region="18">Kauno r. sav.</option>
+                                                    <option value="19"
+                                                                        data-region="19">Akmenės r. sav.</option>
+                                                    <option value="20"
+                                                                        data-region="20">Marijampolės sav.</option>
+                                                    <option value="21"
+                                                                        data-region="21">Šakių r. sav.</option>
+                                                    <option value="22"
+                                                                        data-region="22">Utenos r. sav.</option>
+                                                    <option value="23"
+                                                                        data-region="23">Mažeikių r. sav.</option>
+                                                    <option value="24"
+                                                                        data-region="24">Klaipėdos r. sav.</option>
+                                                    <option value="25"
+                                                                        data-region="25">Kupiškio r. sav.</option>
+                                                    <option value="26"
+                                                                        data-region="26">Kelmės r. sav.</option>
+                                                    <option value="27"
+                                                                        data-region="27">Jonavos r. sav.</option>
+                                                    <option value="28"
+                                                                        data-region="28">Pasvalio r. sav.</option>
+                                                    <option value="29"
+                                                                        data-region="29">Ukmergės r. sav.</option>
+                                                    <option value="30"
+                                                                        data-region="30">Molėtų r. sav.</option>
+                                                    <option value="31"
+                                                                        data-region="31">Pakruojo r. sav.</option>
+                                                    <option value="32"
+                                                                        data-region="32">Kazlų Rūdos sav.</option>
+                                                    <option value="33"
+                                                                        data-region="33">Kalvarijos sav.</option>
+                                                    <option value="34"
+                                                                        data-region="34">Zarasų r. sav.</option>
+                                                    <option value="35"
+                                                                        data-region="35">Širvintų r. sav.</option>
+                                                    <option value="36"
+                                                                        data-region="36">Anykščių r. sav.</option>
+                                                    <option value="37"
+                                                                        data-region="37">Tauragės r. sav.</option>
+                                                    <option value="38"
+                                                                        data-region="38">Plungės r. sav.</option>
+                                                    <option value="39"
+                                                                        data-region="39">Raseinių r. sav.</option>
+                                                    <option value="40"
+                                                                        data-region="40">Kaišiadorių r. sav.</option>
+                                                    <option value="41"
+                                                                        data-region="41">Neringos sav.</option>
+                                                    <option value="42"
+                                                                        data-region="42">Elektrėnų sav.</option>
+                                                    <option value="43"
+                                                                        data-region="43">Birštono sav.</option>
+                                                    <option value="44"
+                                                                        data-region="44">Rietavo sav.</option>
+                                                    <option value="45"
+                                                                        data-region="45">Prienų r. sav.</option>
+                                                    <option value="46"
+                                                                        data-region="46">Marijampolės r.</option>
+                                                    <option value="47"
+                                                                        data-region="47">Rokiškio r. sav.</option>
+                                                    <option value="48"
+                                                                        data-region="48">Jurbarko r. sav.</option>
+                                                    <option value="49"
+                                                                        data-region="49">Švenčionių r. sav.</option>
+                                                    <option value="50"
+                                                                        data-region="50">Druskininkų sav.</option>
+                                            </select>
+                </div>
+            </div>
+            <div class="col-1-of-3">
+                <div class="form-row">
+                    <div data-quartals-streets="/api/quartals-streets">
+                        <div>
+    <input type="hidden" data-object-value-holder="quartal" value=""
+           name="quartal" id="quartal"/>
+    <input type="hidden" data-object-value-holder="district" value=""
+           name="district" id="district"/>
+    <input type="hidden" data-object-value-holder="street" value=""
+           name="street" id="street"/>
+    <div class="row-small">
+        <div class="col-3-of-5">
+            <a href="#quartal-popup" data-sync-objects="quartal" data-options='{"touch" : false}' data-fancybox
+   class="input-style-link  disabled ">
+    Mikrorajonai
+</a>
+
+<div id="quartal-popup" style="display: none;" class="popup">
+    <div class="popup-header">
+        <input id="street_search" type="text" data-fuzzy-filter="quartal" placeholder="Įveskite mikrorajono pavadimą">
+    </div>
+    <div class="popup-content">
+        <div class="check-all">
+            <input type="checkbox" id="check-all-quartal" data-check-all="quartal" value="1">
+            <label for="check-all-quartal" class="checkbox">
+                Pažymėti visus mikrorajonus
+            </label>
+        </div>
+        <div data-filled-objects="quartal" class="check-list">
+
+                    </div>
+    </div>
+    <div class="popup-footer">
+        <a href="#" data-close-fancybox data-save-objects="quartal" class="button">Išsaugoti</a>
+        <a href="#" data-uncheck-all="quartal" class="clear-checklist">Išvalyti pasirinkimus</a>
+    </div>
+</div>
+        </div>
+        <div class="col-2-of-5">
+            <a href="#street-popup" data-sync-objects="street" data-options='{"touch" : false}' data-fancybox
+   class="input-style-link  disabled ">
+    Gatvės
+</a>
+
+<div id="street-popup" style="display: none;" class="popup">
+    <div class="popup-header">
+        <input id="street_search" type="text" data-fuzzy-filter="street" placeholder="Įveskite gatvės pavadimą">
+    </div>
+    <div class="popup-content">
+        <div class="check-all">
+            <input type="checkbox" id="check-all-street" data-check-all="street" value="1">
+            <label for="check-all-street" class="checkbox">
+                Pažymėti visas gatves
+            </label>
+        </div>
+        <div data-filled-objects="street" class="check-list">
+
+                    </div>
+    </div>
+    <div class="popup-footer">
+        <a href="#" data-close-fancybox data-save-objects="street" class="button">Išsaugoti</a>
+        <a href="#" data-uncheck-all="street" class="clear-checklist">Išvalyti pasirinkimus</a>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div data-apartment-nr
+                 class="col-1-of-3" >
+                <div class="form-row">
+                    <label>Kambarių skaičius</label>
+                    <div class="row-small">
+                        <div class="col-1-of-2">
+                            <input type="text" value="" name="rooms_from"
+                                   placeholder="nuo">
+                        </div>
+                        <div class="col-1-of-2">
+                            <input type="text" value="" name="rooms_to"
+                                   placeholder="iki">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1-of-3">
+                <div class="form-row">
+                    <label>Plotas</label>
+                    <div class="row-small">
+                        <div class="col-1-of-2">
+                            <input type="text" value="" id="area_from"
+                                   name="area_from"
+                                   placeholder="nuo">
+                        </div>
+                        <div class="col-1-of-2">
+                            <input type="text" value="" id="area_to" name="area_to"
+                                   placeholder="iki">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1-of-3">
+                <div class="form-row">
+                    <label>Kaina</label>
+                    <div class="row-small">
+                        <div class="col-1-of-2">
+                            <input type="text" value="" name="price_from"
+                                   placeholder="nuo">
+                        </div>
+                        <div class="col-1-of-2">
+                            <input type="text" value="" name="price_to"
+                                   placeholder="iki">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" active "
+             data-detailed-search="/api/detailed-search">
+                            <hr>
+<input type="hidden" name="detailed" value="1">
+<div class="row">
+            <div class="col-1-of-3">
+            <div class="form-row">
+                <select name="heating[]" data-text="Šildymas" multiple=>
+                                            <option value="1"
+                                                        >Nėra</option>
+                                            <option value="2"
+                                                        >Centrinis</option>
+                                            <option value="3"
+                                                        >Centrinis-kolektorinis</option>
+                                            <option value="4"
+                                                        >Dujinis</option>
+                                            <option value="5"
+                                                        >Kietu kuru</option>
+                                            <option value="6"
+                                                        >Elektrinis</option>
+                                            <option value="7"
+                                                        >Skystu kuru</option>
+                                            <option value="8"
+                                                        >Geoterminis</option>
+                                            <option value="9"
+                                                        >Aeroterminis</option>
+                                            <option value="11"
+                                                        >Saulės baterijos</option>
+                                            <option value="10"
+                                                        >Kita</option>
+                                    </select>
+            </div>
+        </div>
+    
+    
+    
+            <div class="col-1-of-3">
+            <div class="form-row">
+                <select name="building_structure[]" data-text="Pastato tipas" multiple>
+                                            <option value="1"
+                                                        >Blokinis</option>
+                                            <option value="2"
+                                                        >Mūrinis</option>
+                                            <option value="3"
+                                                        >Medinis</option>
+                                            <option value="4"
+                                                        >Monolitas</option>
+                                            <option value="5"
+                                                        >Karkasinis</option>
+                                            <option value="6"
+                                                        >Rąstinis</option>
+                                            <option value="7"
+                                                        >Kita</option>
+                                    </select>
+            </div>
+        </div>
+    
+            <div class="col-1-of-3">
+            <div class="form-row">
+                <select name="building_state[]" data-text="Įrengimas" multiple>
+                                            <option value="1"
+                                                        >Pilnai įrengtas</option>
+                                            <option value="2"
+                                                        >Dalinė apdaila</option>
+                                            <option value="3"
+                                                        >Neįrengtas</option>
+                                            <option value="4"
+                                                        >Suremontuotas</option>
+                                            <option value="5"
+                                                        >Tvarkingas</option>
+                                            <option value="6"
+                                                        >Remontuotinas</option>
+                                            <option value="8"
+                                                        >Neįrengtas/Statomas</option>
+                                            <option value="7"
+                                                        >Kita</option>
+                                    </select>
+            </div>
+        </div>
+    
+    </div>
+
+<div class="row">
+            <div class="col-1-of-3">
+            <div class="form-row">
+                <label>Aukštas</label>
+                <div class="row-small range-dropdown" data-range-dropdown='{
+            "from": "#floor_from",
+            "to": "#floor_to",
+            "values": [1,2,3,4,5,6,7],
+            "defaultValue": 1
+        }'>
+                    <div class="col-1-of-2">
+                        <input type="text" value="" id="floor_from" name="floor_from"
+                               placeholder="nuo">
+                    </div>
+                    <div class="col-1-of-2">
+                        <input type="text" value="" id="floor_to" name="floor_to"
+                               placeholder="iki">
+                    </div>
+                </div>
+            </div>
+        </div>
+                <div class="col-1-of-3">
+            <div class="form-row">
+                <label>Metai</label>
+                <div class="row-small range-dropdown" data-range-dropdown='{
+            "from": "#year_from",
+            "to": "#year_to",
+            "values": [2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2010,2005,2000,1990,1980,1970,1960,1950],
+            "defaultValue": 1
+        }'>
+                    <div class="col-1-of-2">
+                        <input type="text" value="" id="year_from" name="year_from"
+                               placeholder="nuo">
+                    </div>
+                    <div class="col-1-of-2">
+                        <input type="text" value="" id="year_to" name="year_to"
+                               placeholder="iki">
+                    </div>
+                </div>
+            </div>
+        </div>
+                    <div class="col-1-of-3">
+            <div class="form-row">
+                                    <label>Kaina už m<sup>2</sup></label>
+                                <div class="row-small">
+                    <div class="col-1-of-2">
+                        <input type="text" value="" name="price_area_from"
+                               placeholder="nuo">
+                    </div>
+                    <div class="col-1-of-2">
+                        <input type="text" value="" name="price_area_to"
+                               placeholder="iki">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+                    </div>
+        <div class="form-controls">
+            <button type="submit" class="btn--primary">Ieškoti</button>
+                        <a href="#" class=""
+               data-detailed-toggle><span class="icon-search"></span>
+                <span data-active-text="Greitoji paieška"
+                      data-inactive-text="Detalioji paieška">
+                                                    Greitoji paieška
+                                            </span>
+            </a>
+        </div>
+    </div>
+    <div data-sidebar-loader class="loading-screen">
+        <img src="/img/loader.gif" alt="Loader">
+    </div>
+</form>
+
+
+            </div>
+        </section>
+        <section class="map-section">
+            <div class="map-section__map">
+                <ul data-map-controls class="menu map__controls clearfix">
+                    <li data-map-controls-msg>
+                        <div class="map__controls-message">Pažymėkite vietą, kurioje domina NT objektai
+                            <a href="#" data-hide-map-msg class="map__controls-remove">
+                                <span class="icon-close"></span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" data-draw-circle class="map__controls-btn">
+                            <span class="icon-circle"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-draw-rectangle class="map__controls-btn">
+                            <span class="icon-ractangle"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="info-window-mobile" data-info-window-holder>
+                    <span class="tar">
+                        <a href="#" data-info-window-close class="icon-close"></a>
+                    </span>
+                    <div></div>
+                </div>
+                <div class="map-frame"
+                     data-map
+                     data-map-bounds="{&quot;minX&quot;:&quot;54.4227339&quot;,&quot;minY&quot;:&quot;21.065118&quot;,&quot;maxX&quot;:&quot;56.0211008&quot;,&quot;maxY&quot;:&quot;25.4692498&quot;}"
+                     data-clusters="[[{&quot;id&quot;:2927,&quot;lat&quot;:&quot;54.700671869773&quot;,&quot;lon&quot;:&quot;23.307119607925&quot;,&quot;objectId&quot;:48685,&quot;price&quot;:&quot;7500.00&quot;,&quot;date&quot;:{&quot;date&quot;:&quot;2023-04-25 09:04:06.000000&quot;,&quot;timezone_type&quot;:3,&quot;timezone&quot;:&quot;Europe\/Helsinki&quot;}},{&quot;id&quot;:2918,&quot;lat&quot;:&quot;54.5739949&quot;,&quot;lon&quot;:&quot;23.3604009&quot;,&quot;objectId&quot;:48829,&quot;price&quot;:&quot;27777.00&quot;,&quot;date&quot;:{&quot;date&quot;:&quot;2023-04-22 10:34:35.000000&quot;,&quot;timezone_type&quot;:3,&quot;timezone&quot;:&quot;Europe\/Helsinki&quot;}}],{&quot;id&quot;:2922,&quot;lat&quot;:&quot;55.91293&quot;,&quot;lon&quot;:&quot;23.276898&quot;,&quot;objectId&quot;:48847,&quot;price&quot;:&quot;42000.00&quot;,&quot;date&quot;:{&quot;date&quot;:&quot;2023-04-24 13:09:22.000000&quot;,&quot;timezone_type&quot;:3,&quot;timezone&quot;:&quot;Europe\/Helsinki&quot;},&quot;data&quot;:false},[{&quot;id&quot;:2939,&quot;lat&quot;:&quot;54.7265648&quot;,&quot;lon&quot;:&quot;25.2300993&quot;,&quot;objectId&quot;:48891,&quot;price&quot;:&quot;109000.00&quot;,&quot;date&quot;:{&quot;date&quot;:&quot;2023-04-27 10:42:23.000000&quot;,&quot;timezone_type&quot;:3,&quot;timezone&quot;:&quot;Europe\/Helsinki&quot;}},{&quot;id&quot;:2933,&quot;lat&quot;:&quot;54.7287581&quot;,&quot;lon&quot;:&quot;25.2727318&quot;,&quot;objectId&quot;:48886,&quot;price&quot;:&quot;125000.00&quot;,&quot;date&quot;:{&quot;date&quot;:&quot;2023-04-26 12:39:29.000000&quot;,&quot;timezone_type&quot;:3,&quot;timezone&quot;:&quot;Europe\/Helsinki&quot;}},{&quot;id&quot;:2930,&quot;lat&quot;:&quot;54.6868265&quot;,&quot;lon&quot;:&quot;25.2752863&quot;,&quot;objectId&quot;:47845,&quot;price&quot;:&quot;334000.00&quot;,&quot;date&quot;:{&quot;date&quot;:&quot;2023-04-25 14:54:55.000000&quot;,&quot;timezone_type&quot;:3,&quot;timezone&quot;:&quot;Europe\/Helsinki&quot;}}]]">
+                </div>
+            </div>
+            <div class="map-section__list">
+                <div class="list_controls list_controls--map --side-controls clearfix">
+                    <div class="list_controls-center show-once-ready">
+                        <ul class="menu list-controls_menu list-controls_menu--map">
+                            <li><a href="/paieska?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=1&amp;map-results=">Rodyti sąraše</a></li>
+                            <li class="list_controls-select">
+                                <select class="custom-select" data-trigger-form="#search-form" data-select-value-sync="#order" name="order">
+    <option
+            selected value="newest">Naujausi viršuje
+    </option>
+    <option
+             value="price_high">Brangiausi viršuje
+    </option>
+    <option
+             value="price_low">Pigiausi viršuje
+    </option>
+</select>
+                            </li>
+                        </ul>
+                        <a href="#search-form" class="search-form-button" data-fancybox=""
+                           data-options='{"touch": false, "baseClass": "fancybox-no-bg"}'>
+                            <span class="icon-search"></span>
+                            Papildyti paiešką
+                        </a>
+                    </div>
+                </div>
+                <div data-route="/zemelapis"
+                     data-query="{&quot;order&quot;:&quot;&quot;,&quot;search&quot;:&quot;1&quot;,&quot;type&quot;:&quot;apartment-sell&quot;,&quot;region&quot;:&quot;0&quot;,&quot;quartal&quot;:&quot;&quot;,&quot;district&quot;:&quot;&quot;,&quot;street&quot;:&quot;&quot;,&quot;rooms_from&quot;:&quot;&quot;,&quot;rooms_to&quot;:&quot;&quot;,&quot;area_from&quot;:&quot;&quot;,&quot;area_to&quot;:&quot;&quot;,&quot;price_from&quot;:&quot;&quot;,&quot;price_to&quot;:&quot;&quot;,&quot;detailed&quot;:&quot;1&quot;,&quot;floor_from&quot;:&quot;&quot;,&quot;floor_to&quot;:&quot;&quot;,&quot;year_from&quot;:&quot;&quot;,&quot;year_to&quot;:&quot;&quot;,&quot;price_area_from&quot;:&quot;&quot;,&quot;price_area_to&quot;:&quot;&quot;,&quot;page&quot;:&quot;1&quot;}"
+                     data-items-per-page="6"
+                     data-js-pagination-container>
+                    <div>
+    <div class="map-list__title">Žemėlapyje rodomi objektai:
+        <strong>163</strong>
+    </div>
+
+    <div class="map-section__list-inner">
+        <div class="items-list clearfix">
+                            <a href="/butai-pardavimui/parduodamas-butas-zemynos-g-pasilaiciuose-vilniuje-66-72-kv-m-ploto-48891" target="_blank" class="list-item--small">
+    <div style="background-image: url(https://c1.topbroker.lt/s3/photos/000/679/000/watermarked.jpg?1049095)"
+         class="list-item__image-wrap">
+            <div class="list-item__flag list-item__flag--new">
+        Naujas
+    </div>
+
+    </div>
+    <div class="list-item__deatails">
+        <div class="list-item__type">Butas</div>
+        <div class="list-item__name">
+            Žemynos g.            Vilniaus m. sav.        </div>
+        <div class="list-item__price">109 000 €</div>
+                    <div class="list-item__price price-per-area">1 633,69
+                €/m&sup2;
+            </div>
+            </div>
+    <ul class="menu list-item__atributes">
+                    <li><span class="icon-room"> </span>3</li>
+        
+                    <li><span class="icon-house"> </span>1986 m.</li>
+        
+                    <li><span class="icon-area"> </span> 66.72 m&sup2;
+        
+                    <li>
+                <span class="icon-stairs"> </span>
+                9/9 a.
+            </li>
+        
+            </ul>
+</a>
+                            <a href="/butai-pardavimui/parduodamas-butas-didlaukio-g-baltupiuose-vilniuje-64-06-kv-m-ploto-48886" target="_blank" class="list-item--small">
+    <div style="background-image: url(https://c1.topbroker.lt/s3/photos/000/678/471/watermarked.jpg?1100814)"
+         class="list-item__image-wrap">
+            <div class="list-item__flag list-item__flag--new">
+        Naujas
+    </div>
+
+    </div>
+    <div class="list-item__deatails">
+        <div class="list-item__type">Butas</div>
+        <div class="list-item__name">
+            Didlaukio g.            Vilniaus m. sav.        </div>
+        <div class="list-item__price">125 000 €</div>
+                    <div class="list-item__price price-per-area">1 951,30
+                €/m&sup2;
+            </div>
+            </div>
+    <ul class="menu list-item__atributes">
+                    <li><span class="icon-room"> </span>3</li>
+        
+                    <li><span class="icon-house"> </span>1978 m.</li>
+        
+                    <li><span class="icon-area"> </span> 64.06 m&sup2;
+        
+                    <li>
+                <span class="icon-stairs"> </span>
+                1/5 a.
+            </li>
+        
+            </ul>
+</a>
+                            <a href="/butai-pardavimui/parduodamas-butas-a-smetonos-g-senamiestyje-vilniuje-66-82-kv-m-ploto-47845" target="_blank" class="list-item--small">
+    <div style="background-image: url(https://c1.topbroker.lt/s3/photos/000/665/353/watermarked.jpg?331323)"
+         class="list-item__image-wrap">
+            <div class="list-item__flag list-item__flag--new">
+        Naujas
+    </div>
+
+    </div>
+    <div class="list-item__deatails">
+        <div class="list-item__type">Butas</div>
+        <div class="list-item__name">
+            A. Smetonos g.            Vilniaus m. sav.        </div>
+        <div class="list-item__price">334 000 €</div>
+                    <div class="list-item__price price-per-area">4 998,50
+                €/m&sup2;
+            </div>
+            </div>
+    <ul class="menu list-item__atributes">
+                    <li><span class="icon-room"> </span>3</li>
+        
+                    <li><span class="icon-house"> </span>1951 m.</li>
+        
+                    <li><span class="icon-area"> </span> 66.82 m&sup2;
+        
+                    <li>
+                <span class="icon-stairs"> </span>
+                3/4 a.
+            </li>
+        
+            </ul>
+</a>
+                            <a href="/butai-pardavimui/parduodamas-butas-bagotosios-g-antanavo-k-60-kv-m-ploto-48685" target="_blank" class="list-item--small">
+    <div style="background-image: url(https://c1.topbroker.lt/s3/photos/000/673/599/watermarked.jpg?149897)"
+         class="list-item__image-wrap">
+            <div class="list-item__flag list-item__flag--new">
+        Naujas
+    </div>
+
+    </div>
+    <div class="list-item__deatails">
+        <div class="list-item__type">Butas</div>
+        <div class="list-item__name">
+            Bagotosios g.            Kazlų Rūdos sav.        </div>
+        <div class="list-item__price">7 500 €</div>
+                    <div class="list-item__price price-per-area">125,00
+                €/m&sup2;
+            </div>
+            </div>
+    <ul class="menu list-item__atributes">
+                    <li><span class="icon-room"> </span>2</li>
+        
+        
+                    <li><span class="icon-area"> </span> 60 m&sup2;
+        
+                    <li>
+                <span class="icon-stairs"> </span>
+                2/2 a.
+            </li>
+        
+            </ul>
+</a>
+                            <a href="/butai-pardavimui/parduodamas-butas-tilzes-g-lieporiuose-siauliuose-36-22-kv-m-ploto-48847" target="_blank" class="list-item--small">
+    <div style="background-image: url(https://c1.topbroker.lt/s3/photos/000/677/432/watermarked.jpg?678330)"
+         class="list-item__image-wrap">
+            <div class="list-item__flag list-item__flag--new">
+        Naujas
+    </div>
+
+    </div>
+    <div class="list-item__deatails">
+        <div class="list-item__type">Butas</div>
+        <div class="list-item__name">
+            Tilžės g.            Šiaulių m. sav.        </div>
+        <div class="list-item__price">42 000 €</div>
+                    <div class="list-item__price price-per-area">1 159,58
+                €/m&sup2;
+            </div>
+            </div>
+    <ul class="menu list-item__atributes">
+                    <li><span class="icon-room"> </span>1</li>
+        
+                    <li><span class="icon-house"> </span>1970 m.</li>
+        
+                    <li><span class="icon-area"> </span> 36.22 m&sup2;
+        
+                    <li>
+                <span class="icon-stairs"> </span>
+                2/5 a.
+            </li>
+        
+            </ul>
+</a>
+                            <a href="/butai-pardavimui/parduodamas-butas-parko-g-deguciuose-marijampoleje-40-kv-m-ploto-48829" target="_blank" class="list-item--small">
+    <div style="background-image: url(https://c1.topbroker.lt/s3/photos/000/676/964/watermarked.jpg?245761)"
+         class="list-item__image-wrap">
+            <div class="list-item__flag">Rezervuotas</div>
+
+    </div>
+    <div class="list-item__deatails">
+        <div class="list-item__type">Butas</div>
+        <div class="list-item__name">
+            Parko g.            Marijampolės sav.        </div>
+        <div class="list-item__price">27 777 €</div>
+                    <div class="list-item__price price-per-area">694,43
+                €/m&sup2;
+            </div>
+            </div>
+    <ul class="menu list-item__atributes">
+                    <li><span class="icon-room"> </span>2</li>
+        
+                    <li><span class="icon-house"> </span>1979 m.</li>
+        
+                    <li><span class="icon-area"> </span> 40 m&sup2;
+        
+                    <li>
+                <span class="icon-stairs"> </span>
+                1/5 a.
+            </li>
+        
+            </ul>
+</a>
+                    </div>
+    </div>
+
+    <div class="test" data-js-pagination>
+            <div class="pagination">
+        
+        
+                                    <span class="current">1</span>
+                                                <span class="page">
+                    <a href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=2">2</a>
+                </span>
+                                                <span class="page">
+                    <a href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=3">3</a>
+                </span>
+                                                <span class="page">
+                    <a href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=4">4</a>
+                </span>
+                                                <span class="page">
+                    <a href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=5">5</a>
+                </span>
+                                                <span class="page">
+                    <a href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=6">6</a>
+                </span>
+                                                <span class="page">
+                    <a href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=7">7</a>
+                </span>
+                    
+                    <span class="next">
+                <a rel="next" href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=2">&gt;</a>
+            </span>
+        
+                    <span class="last">
+                <a href="/zemelapis?order=&amp;search=1&amp;type=apartment-sell&amp;region=0&amp;quartal=&amp;district=&amp;street=&amp;rooms_from=&amp;rooms_to=&amp;area_from=&amp;area_to=&amp;price_from=&amp;price_to=&amp;detailed=1&amp;floor_from=&amp;floor_to=&amp;year_from=&amp;year_to=&amp;price_area_from=&amp;price_area_to=&amp;page=28">&gt;&gt;</a>
+            </span>
+            </div>
+
+    </div>
+
+    <div data-sidebar-loader class="loading-screen">
+        <img src="/img/loader.gif" alt="Loader">
+    </div>
+</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+            <div class="site-footer  map-footer ">
+    <div class="site-footer__top">
+        <div class="site-block">
+            <div class="row">
+                <div class="col-1-of-5">
+                    <h5>Nekilnojamasis turtas</h5>
+                    <ul class="menu simple-menu">
+                        <li><a href="https://pardavimas.remax.lt/?ref=footer-sell">Norintiems parduoti NT</a></li>
+                        <li><a href="/paieska">Nekilnojamojo turto skelbimai</a></li>
+                        <li><a href="/zemelapis">NT žemėlapis</a></li>
+                        <li><a href="http://www.remax-collection.lt/" target="_blank">Prabangus nekilnojamasis
+                                turtas</a></li>
+                        <li><a href="/paieska?type=apartment-sell">Parduodami butai</a></li>
+                        <li><a href="/paieska?type=house-sell">Parduodami namai</a></li>
+                        <li><a href="/paieska?type=land-sell">Parduodami sklypai</a></li>
+                        <li><a href="https://www.remax.lt/paieska?type=premises-sell">Parduodamos komercinės patalpos</a></li>
+                    </ul>
+                </div>
+                <div class="col-1-of-5">
+                    <h5>Biurai ir brokeriai</h5>
+                    <ul class="menu simple-menu">
+                        <li><a href="/biurai">RE/MAX biurai</a></li>
+                        <li><a href="/brokeriai">RE/MAX brokeriai</a></li>
+                        <li><a href="/geriausi-brokeriai">RE/MAX Lietuva TOP brokeriai</a></li>
+                        <li><a href="/geriausi-biurai">Biurų TOP 5</a></li>
+                    </ul>
+                </div>
+                <div class="col-1-of-5">
+                    <h5>Paslaugos</h5>
+                    <ul class="menu simple-menu">
+                                                                        <li><a href="https://pardavimas.remax.lt/?ref=footer-consult">Nemokama brokerio konsultacija</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-1-of-5">
+                    <h5>Apie RE/MAX</h5>
+                    <ul class="menu simple-menu">
+                        <li><a href="/apie-mus">Apie mus</a></li>
+                        <li><a href="/fransize">Franšizė</a></li>
+                        <li><a href="https://www.remax.lt/karjera/" target="_blank">Karjera</a></li>
+                    </ul>
+                </div>
+                <div class="col-1-of-5">
+                    <h5>Kontaktai</h5>
+                    <ul class="menu simple-menu">
+                        <li><a href="/kontaktai">Susisiekime</a></li>
+                        <li><a href="/biurai">RE/MAX biurai</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="site-footer__bottom">
+        <div class="site-block tac">
+            <p class="copyrights">© 2023 RE/MAX Lietuva. Visos teisės saugomos. Kiekvienas biuras
+                nepriklausomas ir veiklą vykdo savarankiškai</p>
+        </div>
+    </div>
+</div>
+<script src="/build/232.9b614a15.js" defer></script><script src="/build/scripts.64f12c7f.js" defer></script>
+        </div>
+                    
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0NkDXRfMoz8fsUtIhBksTXnvnskuGkDo&=sensor=true&ver=3&libraries=drawing"></script>
+    </body>
+</html>

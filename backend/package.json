@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "dev":"nodemon index"
+    "dev": "nodemon index"
   },
   "author": "Victor Kozz",
   "license": "ISC",
@@ -17,6 +17,8 @@
     "jsdom": "^21.1.1",
     "mongodb": "^4.6.0",
     "node-fetch": "2.6.7",
-    "nodemon": "^2.0.22"
+    "node-geocoder": "^4.2.0",
+    "nodemon": "^2.0.22",
+    "puppeteer": "^19.11.1"
   }
 }

@@ -29,7 +29,7 @@ const getData = async () => {
         try {
             response = await fetch(UrlList[i]?.url, {method: "get"});
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
         const result = await response.text();
         const dom = new JSDOM(result);
@@ -49,6 +49,7 @@ const getData = async () => {
                     const area = item.area.split(' ')[0];
                     item.area = area;
                     item.type = UrlList[i]?.type;
+                    item.priceEUR = item.priceEUR.replace(/\s/g, "");
                     scrapeData.push(item);
                 });
             }

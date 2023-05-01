@@ -28,23 +28,23 @@ const UrlList = [
 const getDataCapital = async () => {
 
     let scrapeData = [];
-    console.log('process Baltic');
+    console.log('process Capital');
     for(var i = 0; i < UrlList.length; i ++){
  
         let response = null;
         try {
             response = await fetch(UrlList[i]?.url, {method: "get"});
         } catch (err) {
-            console.log(err);
+            // console.log(err);    
         }
         const result = await response.json();
+        var allPromises = [];
         for (let j = 0; j < result.length; j++) {
-            console.log('processing: ' + j + ' of ' + result.length + ' on Baltic');
-            var res = await fetch(`https://www.maps.capital.lt/api.php?get_object&type=left_ad&sr_type=${UrlList[i].key}&id=${result[j].id}`)
+            console.log('processing: ' + j + ' of ' + result.length + ' on Capital');
+            var res = fetch(`https://www.maps.capital.lt/api.php?get_object&type=left_ad&sr_type=${UrlList[i].key}&id=${result[j].id}`)
               .then((response) => response.text())
               .then(async (textString) => {
                 const dom = new JSDOM(textString);
-                console.log(`https://www.maps.capital.lt/api.php?get_object&type=left_ad&sr_type=${UrlList[i].key}&id=${result[j].id}`);
                 let urlRegex = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/;
                 let photo = dom.window.document.querySelector('a');
                 if(photo !== ""){
@@ -67,18 +67,20 @@ const getDataCapital = async () => {
                         area:area.textContent.split(' ')[0],
                         rooms:rooms.textContent,
                     }
+                    // console.log(obj);
                     scrapeData.push(obj);
                 }
               })
               .catch((error) => {
-                  console.error(error);
+                //   console.error(error);
               });
+              allPromises.push(res);
         }
+        await Promise.all(allPromises);
     }
     if(scrapeData){
         insertMultiItems(scrapeData);
     }
-
 };
 
 module.exports = { getDataCapital };

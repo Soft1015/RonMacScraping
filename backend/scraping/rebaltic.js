@@ -81,7 +81,6 @@ const getDetailOfRoom = async (length, pay, type, typeIndex) => {
                 const html = await page.content();
                 const dom = new JSDOM(html);
                 let details = dom.window.document.querySelectorAll("body > div.wrapper.page-wrapper > div > div.content.page-content > div > div > div.catalog-grid.catalog-grid > div");
-               
                 for (let j = 0; j < details.length; j++) {
                     const img = details[j].querySelector('img');
                     let title = details[j].querySelector('div').querySelector('a');

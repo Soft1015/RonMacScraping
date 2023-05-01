@@ -30,7 +30,7 @@ const getDataBaltic = async () => {
         try {
             response = await fetch(UrlList[i]?.url, {method: "get"});
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
         const result = await response.text();
         const dom = new JSDOM(result);

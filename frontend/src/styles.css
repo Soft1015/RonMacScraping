@@ -1,0 +1,113 @@
+.App {
+  text-align: center;
+}
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
+}
+body{
+  background-color:  #0e5e9f !important;
+  font-family: "Open Sans";
+}
+.form__field {
+  font-family: inherit;
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  color:black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  width: 30vh;
+  text-align: center;
+}
+.form__field::placeholder {
+  color: transparent;
+}
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #11998e, #38ef7d);
+  border-image-slice: 1;
+}
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #11998e;
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+  box-shadow: none;
+}
+
+.gm-style .gm-style-iw-c {
+  min-width: 200px !important;
+  padding-top: 5px !important;
+  min-height: 180px !important;
+}
+
+
+#sms {
+  border: 1px solid #0f988e;
+  font-family: Istok Web;
+  letter-spacing: 1px;
+  padding: 0;
+  text-align: center;
+  width: 100px;
+  display: block;
+  float: right;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: normal;
+  border-radius: 3px;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  top: -3px;
+  transform: translateY(0px);
+  position: relative;
+  box-shadow: inset 0 30px 30px -15px rgba(255,255,255,.1), inset 0 0 0 1px rgba(255,255,255,.3), inset 0 1px 20px rgba(0,0,0,0), 0 3px 0 #0f988e, 0 3px 2px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.1), 0 10px 20px rgba(0,0,0,.1);
+  background: #15ccbe;
+  color: white;
+  text-shadow: 0 1px 0 rgba(0,0,0,.3);
+  transition: 150ms all;
+  -moz-transition: 150ms all;
+  -o-transition: 150ms all;
+  -ms-transition: 150ms all;
+}
+
+#sms:active {
+  transform: translateY(3px);
+  box-shadow: inset 0 16px 2px -15px rgba(0,0,0,0), inset 0 0 0 1px rgba(255,255,255,.15), inset 0 1px 20px rgba(0,0,0,.1), 0 0 0 #0f988e, 0 0 0 2px rgba(255,255,255,.5), 0 0 0 rgba(0,0,0,0), 0 0 0 rgba(0,0,0,0);
+}

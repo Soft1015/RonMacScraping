@@ -7,15 +7,23 @@ const { getDataCapital } = require('./scraping/capital')
 const { getDataRebaltic } = require('./scraping/rebaltic');
 const { getRemaxData } = require('./scraping/remax');
 const { getDataAkorus } = require('./scraping/akorus');
-
+const { getDataAruodas } = require('./scraping/aruodas');
+const { getDataKarina } = require('./scraping/karina');
 const routes = require("./routes");
 
 const app = express();
 app.use(bodyParser.json());
 app.use(routes);
 
-init().then(() => {
+init().then( async() => {
   console.log("starting server on port 3000");
-  getDataRebaltic();
   app.listen(3000);
+  // await getData();
+  // await getDataCapital();
+  // await getDataRebaltic();
+  // await getRemaxData();
+  // await getDataAkorus();
+  // await getDataKarina();
+  // await getDataAruodas();
+  // await getDataBaltic();
 });

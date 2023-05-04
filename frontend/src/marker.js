@@ -10,8 +10,8 @@ const CustomMarker = ({
   accountno,
   address,
   phone,
-  email,
   website,
+  url
 }) => {
   const [markerRef, setMarkerRef] = useState();
   const [isInfoShown, setIsInfoShown] = useState(false);

@@ -134,3 +134,8 @@ body{
   justify-content: space-between;
   align-items: center;
 }
+.card{
+ width: 355px;
+ height: 270px;
+ overflow: auto; 
+}

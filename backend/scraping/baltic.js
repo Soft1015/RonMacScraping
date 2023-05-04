@@ -26,6 +26,7 @@ const getDataBaltic = async () => {
     let scrapeData = [];
     for(var i = 0; i < UrlList.length; i ++){
 
+        console.log("processing: " + (i + 1) + " of " + UrlList.length + " on Baltic");
         let response = null;
         try {
             response = await fetch(UrlList[i]?.url, {method: "get"});
@@ -35,7 +36,7 @@ const getDataBaltic = async () => {
         const result = await response.text();
         const dom = new JSDOM(result);
         let scriptElements = dom.window.document.querySelectorAll("script");
-        scriptElements.forEach((item) => {
+        scriptElements.forEach((item, index) => {
             let myVariable = null;
             const scriptCode = item?.textContent;
             try {
@@ -66,12 +67,13 @@ const getDataBaltic = async () => {
                     obj.img = item.i;
                     obj.area = area[0];
                     obj.rooms = rooms;
+                    obj.url = "https://lt.balticsothebysrealty.com/en/real-estate/" + item.u;
                     scrapeData.push(obj);
                 });
             }
         });
     }
-    if(scrapeData){
+    if(scrapeData.length > 0){
         insertMultiItems(scrapeData);
     }
 };

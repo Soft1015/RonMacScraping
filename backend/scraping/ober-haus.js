@@ -34,7 +34,8 @@ const getData = async () => {
         const result = await response.text();
         const dom = new JSDOM(result);
         let scriptElements = dom.window.document.querySelectorAll("script");
-        scriptElements.forEach((item) => {
+        scriptElements.forEach((item, index) => {
+            console.log("processing: " + (index + 1) + " of " + scriptElements.length + " on Ober-Haus");
             let myVariable = null;
             const scriptCode = item?.textContent;
             try {
@@ -56,7 +57,7 @@ const getData = async () => {
         });
     }
 
-    if(scrapeData){
+    if(scrapeData.length > 0){
         insertMultiItems(scrapeData);
     }
 

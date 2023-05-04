@@ -53,7 +53,7 @@ const getDataAkorus = async () => {
             console.log(err);
         }
     }
-    if(scrapeData){
+    if(scrapeData.length > 0){
         insertMultiItems(scrapeData);
         console.log('completed on AKORUS!!!!!!!!!');
     }
@@ -71,6 +71,7 @@ const getDetailOfRoom = async (length, url, type) => {
             for (let j = 0; j < details.length; j++) {
                 let imgSrc="", addr, area, price, rooms;
                 const img = details[j].querySelector('img');
+                const link = details[j].querySelector('a').getAttribute('href');
                 addr = details[j].querySelector('div.Rtable-cell.bendrine > div.Rtable-cell.wrap.adresas > a');
                 rooms = details[j].querySelector('div.Rtable-cell.bendrine > div.Rtable-cell.text-center.kambariu_sk');
                 area = details[j].querySelector('div.Rtable-cell.bendrine > div.Rtable-cell.text-center.bendras_plotas');
@@ -89,7 +90,8 @@ const getDetailOfRoom = async (length, url, type) => {
                     rooms:rooms?.textContent ? rooms?.textContent : "1",
                     priceEUR:number,
                     x:res?.[0].latitude,
-                    y:res?.[0].longitude
+                    y:res?.[0].longitude,
+                    url:"https://akorus.lt/" + link
                 };
                 partData.push(obj);
             }

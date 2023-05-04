@@ -40,7 +40,7 @@ const getRemaxData = async () => {
     scrapeData = scrapeData.concat(val);
   }
 
-  if(scrapeData){
+  if(scrapeData.length > 0){
       insertMultiItems(scrapeData);
       console.log('completed on Remax!!!!!!!!!');
   }
@@ -128,6 +128,7 @@ const getDetailOfRoom = async (length, url, type) => {
         obj.area = area;
         obj.rooms = rooms;
         obj.priceEUR = number;
+        obj.url = "https://www.remax.lt" + items[j].getAttribute('href');
         newItem.push(obj);
       }
       //filter data

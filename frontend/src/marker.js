@@ -12,7 +12,6 @@ const CustomMarker = ({
   phone,
   email,
   website,
-  sendSMS,
 }) => {
   const [markerRef, setMarkerRef] = useState();
   const [isInfoShown, setIsInfoShown] = useState(false);

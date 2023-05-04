@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { GoogleMap, LoadScript, DrawingManager } from "@react-google-maps/api";
-import Marker from "./marker";
+import Marker from "./marker"
 import {
-  IconButton,
-  Alert,
-  Collapse,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
+  OutlinedInput,
+  Grid,
+  InputAdornment,
+  Button,
+  Popover,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  CardActionArea,
+  IconButton
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import LoopIcon from "@mui/icons-material/Loop";
-import CloseIcon from "@mui/icons-material/Close";
-import { Container, OutlinedInput } from "@mui/material";
-import ScaleLoader from "react-spinners/ScaleLoader";
-import DetailItem from "./detailItem";
 
+import SearchIcon from "@mui/icons-material/Search";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ScaleLoader from "react-spinners/ScaleLoader";
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 const mapContainerStyle = {
-  height: "80%",
+  height: "100%",
   width: "100%",
 };
 
@@ -46,7 +52,7 @@ const options = {
 
 const style = {
   display: "flex",
-  height: "100vh",
+  height: "86vh",
 };
 
 const groupStyle = {
@@ -57,8 +63,8 @@ const formStyle = {
   backgroundColor: "white",
   position: "absolute",
   zIndex: "5",
-  width: "340px",
-  left: "10%",
+  width: "430px",
+  left: "5%",
   top: "20%",
   boxShadow: `0px 0px 8px 0px #999999`,
 };
@@ -67,8 +73,8 @@ const formResultStyle = {
   backgroundColor: "white",
   position: "absolute",
   zIndex: "5",
-  width: "340px",
-  left: "10%",
+  width: "430px",
+  left: "5%",
   top: "20%",
   boxShadow: `0px 0px 8px 0px #999999`,
   maxHeight: "600px",
@@ -86,20 +92,31 @@ const searchButtonStyle = {
   color: "white",
   cursor: "pointer",
 };
+
+
 const maxLength = 5;
 const Dashboard = () => {
   const [showingResult, setShowState] = useState(0);
   const [open, setOpen] = useState(false);
 
-  const [type, setType] = useState([]);
-  const [currType, setCurrType] = useState("");
-  const [brand, setBrand] = useState([]);
-  const [currBrand, setCurrBrand] = useState("");
-
   const [MarkInfos, setMarkInfo] = useState([]);
   const [dealInfo, setDealInfo] = useState([]);
   const [isLoading, setLoadingState] = useState(false);
   const [postcode, setPostcode] = useState("");
+
+  const [propertyType, setPropertyType] = useState(0);
+  const [timeInvestor, setTimeInvestor] = useState(0);
+  const [flatInfos, setFlatInfo] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+
+
+  const onChangeTimeInvestor = (event) => {
+    setTimeInvestor(event.target.value);
+  };
+
+  const onChangePropertyType = (event) => {
+    setPropertyType(event.target.value);
+  };
 
   const onLoad = (drawingManager) => {
     // console.log(drawingManager);
@@ -115,15 +132,15 @@ const Dashboard = () => {
       if (item.type !== currType) return false;
       return true;
     });
-    if(postcode != ""){
-      data.sort(async function(a, b){
+    if (postcode != "") {
+      data.sort(async function (a, b) {
         const dis1 = await getDistance(postcode, a.postcode);
         const dis2 = await getDistance(postcode, b.postcode);
         return dis1 - dis2;
       });
       data.splice(maxLength);
     }
-    setDealInfo( data );
+    setDealInfo(data);
   };
 
   const onMarkerComplete = (marker) => {
@@ -136,16 +153,83 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    getBrand();
+    getData();
   }, []);
 
-  useEffect(() => {}, [dealInfo]);
+  useEffect(() => { }, [dealInfo]);
 
-  const getBrand = async () => {
+  const getData = async () => {
+    fetch("http://localhost:3300/items")
+      .then((response) => response.json())
+      .then((data) => {
+        setFlatInfo(data);
+        setFilterData(data);
+      })
+      .catch((error) => {
+      });
   };
 
-  const sendSMS = (accountNo, phone) => {
+  /**
+   * Menu
+   */
+  //YOC
+  const [anchorYocEl, setAnchorYocEl] = useState(null);
+  const handleYocClose = () => {
+    setAnchorYocEl(null);
   };
+
+  const handleYocClick = (event) => {
+    setAnchorYocEl(event.currentTarget);
+  };
+  //Price
+  const [anchorPriceEl, setAnchorPriceEl] = useState(null);
+  const handlePriceClose = () => {
+    setAnchorPriceEl(null);
+  };
+
+  const handlePriceClick = (event) => {
+    setAnchorPriceEl(event.currentTarget);
+  };
+  //Room Number
+  const [anchorRmNumEl, setAnchorRmNumEl] = useState(null);
+  const handleRmNumClose = () => {
+    setAnchorPriceEl(null);
+  };
+
+  const handleRmNumClick = (event) => {
+    setAnchorRmNumEl(event.currentTarget);
+  };
+  //Area
+  const [anchorAreaEl, setAnchorAreaEl] = useState(null);
+  const handleAreaClose = () => {
+    setAnchorAreaEl(null);
+  };
+
+  const handleAreaClick = (event) => {
+    setAnchorAreaEl(event.currentTarget);
+  };
+  //Acq Cost
+  const [anchorAcqEl, setAnchorAcqEl] = useState(null);
+  const handleAcqClose = () => {
+    setAnchorAcqEl(null);
+  };
+
+  const handleAcqClick = (event) => {
+    setAnchorAcqEl(event.currentTarget);
+  };
+  //Time Setting
+  const [anchorTimeEl, setAnchorTimeEl] = useState(null);
+  const handleTimeClose = () => {
+    setAnchorTimeEl(null);
+  };
+
+  const handleTimeClick = (event) => {
+    setAnchorTimeEl(event.currentTarget);
+  };
+  /**
+   * end Menu
+   */
+
   return (
     <LoadScript
       id="script-loader"
@@ -158,147 +242,364 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          <h2 style={{ color: "white" }}>Google Map Dealer</h2>
-          <Collapse in={open}>
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
+          <h2>Google Map Dealer</h2>
+          <hr />
+          <Grid container spacing={0.5} sx={{ p: 1 }}>
+            <Grid xs={1.3} sx={{ ml: 1.5 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  PropertyType
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  style={{ width: "100%" }}
                   size="small"
-                  onClick={() => {
-                    setOpen(false);
+                  value={propertyType}
+                  label="PropertyType"
+                  onChange={onChangePropertyType}
+                >
+                  <MenuItem value="0">Apartments for sale</MenuItem>
+                  <MenuItem value="1">Houses for sale</MenuItem>
+                  <MenuItem value="2">Apartments for rent</MenuItem>
+                  <MenuItem value="3">Houses for rent</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid xs={1} sx={{ ml: 1.5 }}>
+              <div>
+                <Button
+                  variant="outlined"
+                  style={{ height: '40px', color: 'black', fontWeight: 'normal', borderColor: 'gray', width: '100%', justifyContent: 'space-between' }}
+                  onClick={handleYocClick}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  YOC Range
+                </Button>
+                <Popover
+                  open={Boolean(anchorYocEl)}
+                  anchorEl={anchorYocEl}
+                  onClose={handleYocClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
                   }}
                 >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              The message was sent!
-            </Alert>
-          </Collapse>
-
-          <div style={style}>
-            <div>
-              {!showingResult ? (
-                <Container maxWidth="sm" style={formStyle}>
-                  <h2>Store locator</h2>
-                  <p style={{ fontSize: "14px" }}>
-                    Find store details, facilities and opening hours
-                  </p>
                   <div>
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label">
-                        Brand
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={currBrand}
-                        style={{ width: "80%" }}
-                        label="Brand"
-                        size="small"
-                        onChange={(e) => setCurrBrand(e.target.value)}
-                      >
-                        {brand.map((item, index) => {
-                          return (
-                            <MenuItem key={index} value={item}>
-                              {item}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
+                    <p className="popup-menu-header">Yield on cost</p>
+                    <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Min</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                            label="Min"
+                          />
+                        </FormControl>
+                      </Grid>
 
-                    <FormControl fullWidth>
-                      <InputLabel
-                        id="demo-simple-select-label"
-                        style={{ marginTop: "10px" }}
-                      >
-                        Type
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={currType}
-                        style={{ width: "80%", marginTop: "10px" }}
-                        label="Type"
-                        size="small"
-                        onChange={(e) => setCurrType(e.target.value)}
-                      >
-                        {type.map((item, index) => {
-                          return (
-                            <MenuItem key={index} value={item}>
-                              {item}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                    <div style={groupStyle}>
-                      <OutlinedInput
-                        id="outlined-adornment-weight"
-                        style={{
-                          marginTop: "10px",
-                          width: "80%",
-                          marginBottom: "15px",
-                        }}
-                        aria-describedby="outlined-weight-helper-text"
-                        size="small"
-                        placeholder="Enter location"
-                        onChange={(e) => setPostcode(e.target.value)}
-                        value={postcode}
-                      />
-                      <button style={searchButtonStyle} onClick={onSearch}>
-                        <SearchIcon />
-                      </button>
-                    </div>
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Max</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                            label="Max"
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
                   </div>
-                </Container>
-              ) : (
-                <Container maxWidth="sm" style={formResultStyle}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <h2>Dealer Results</h2>
-                    <IconButton
-                      aria-label="loop"
-                      size="small"
-                      onClick={() => setShowState(0)}
-                    >
-                      <LoopIcon />
-                    </IconButton>
+                </Popover>
+              </div>
+            </Grid>
+            <Grid xs={1} sx={{ ml: 1.5 }}>
+              <div>
+                <Button
+                  variant="outlined"
+                  style={{ height: '40px', color: 'black', fontWeight: 'normal', borderColor: 'gray', width: '100%', justifyContent: 'space-between' }}
+                  onClick={handlePriceClick}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Price
+                </Button>
+                <Popover
+                  open={Boolean(anchorPriceEl)}
+                  anchorEl={anchorPriceEl}
+                  onClose={handlePriceClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <div>
+                    <p className="popup-menu-header">Price</p>
+                    <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Min</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                            label="Min"
+                          />
+                        </FormControl>
+                      </Grid>
+
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Max</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                            label="Max"
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
                   </div>
-                  <p style={{ fontSize: "14px" }}>
-                    Showing {dealInfo.length} your nearest store
-                  </p>
-                  {dealInfo.map(
-                    (
-                      { name, accountno, address, phone, email, website },
-                      index
-                    ) => {
-                      return (
-                        <DetailItem
-                          key={index}
-                          name={name}
-                          accountno={accountno}
-                          address={address}
-                          phone={phone}
-                          email={email}
-                          website={website}
-                          sendSMS={sendSMS}
-                        />
-                      );
-                    }
-                  )}
-                </Container>
-              )}
-            </div>
-            <div style={{ width: "100%" }}>
+                </Popover>
+              </div>
+            </Grid>
+            <Grid xs={1.2} sx={{ ml: 1.5 }}>
+              <div>
+                <Button
+                  variant="outlined"
+                  style={{ height: '40px', color: 'black', fontWeight: 'normal', borderColor: 'gray', width: '100%', justifyContent: 'space-between' }}
+                  onClick={handleRmNumClick}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Room Number
+                </Button>
+                <Popover
+                  open={Boolean(anchorRmNumEl)}
+                  anchorEl={anchorRmNumEl}
+                  onClose={handleRmNumClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <div>
+                    <p className="popup-menu-header">Room Number</p>
+                    <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount" size="small">Min</InputLabel>
+                          <OutlinedInput id="outlined-adornment-amount" size="small" label="Min" />
+                        </FormControl>
+                      </Grid>
+
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount" size="small">Min</InputLabel>
+                          <OutlinedInput id="outlined-adornment-amount" size="small" label="Min" />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Popover>
+              </div>
+            </Grid>
+            <Grid xs={1} sx={{ ml: 1.5 }}>
+              <div>
+                <Button
+                  variant="outlined"
+                  style={{ height: '40px', color: 'black', fontWeight: 'normal', borderColor: 'gray', width: '100%', justifyContent: 'space-between' }}
+                  onClick={handleAreaClick}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Area
+                </Button>
+                <Popover
+                  open={Boolean(anchorAreaEl)}
+                  anchorEl={anchorAreaEl}
+                  onClose={handleAreaClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <div>
+                    <p className="popup-menu-header">Area</p>
+                    <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Min</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">m²</InputAdornment>}
+                            label="Min"
+                          />
+                        </FormControl>
+                      </Grid>
+
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Max</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">m²</InputAdornment>}
+                            label="Max"
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Popover>
+              </div>
+            </Grid>
+            <Grid xs={1} sx={{ ml: 1.5 }}>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="outlined-adornment-amount">Capex</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-amount"
+                  size="small"
+                  startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                  label="Capex"
+                />
+              </FormControl>
+            </Grid>
+            <Grid xs={1.5} sx={{ ml: 1.5 }}>
+              <div>
+                <Button
+                  variant="outlined"
+                  style={{ height: '40px', color: 'black', fontWeight: 'normal', borderColor: 'gray' }}
+                  onClick={handleAcqClick}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  AcqCostWithoutCapex
+                </Button>
+                <Popover
+                  open={Boolean(anchorAcqEl)}
+                  anchorEl={anchorAcqEl}
+                  onClose={handleAcqClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <div>
+                    <p className="popup-menu-header">AcqCostWithoutCapex</p>
+                    <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Min</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                            label="Min"
+                          />
+                        </FormControl>
+                      </Grid>
+
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Max</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">€</InputAdornment>}
+                            label="Max"
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Popover>
+              </div>
+            </Grid>
+            <Grid xs={1} sx={{ ml: 1.5 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Time
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  style={{ width: "100%" }}
+                  size="small"
+                  value={timeInvestor}
+                  label="Time"
+                  onChange={onChangeTimeInvestor}
+                >
+                  <MenuItem value="0">1 year</MenuItem>
+                  <MenuItem value="1">2 year</MenuItem>
+                  <MenuItem value="2">3 year</MenuItem>
+                  <MenuItem value="3">4 year</MenuItem>
+                  <MenuItem value="3">5 year</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid xs={1} sx={{ ml: 1.5 }}>
+              <OutlinedInput
+                id="outlined-adornment-weight"
+                aria-describedby="outlined-weight-helper-text"
+                size="small"
+                placeholder="Enter location"
+                onChange={(e) => setPostcode(e.target.value)}
+                value={postcode}
+              />
+            </Grid>
+            <Button sx={{ ml: 1.5 }} variant="outlined" style={{ color: 'black', fontWeight: 'normal', borderColor: 'gray' }} startIcon={<SearchIcon />}>
+              Search
+            </Button>
+            <IconButton
+              aria-label="send"
+              sx={{ ml: 1.5 }}
+              onClick={handleTimeClick}
+            >
+              <AccessAlarmsIcon />
+            </IconButton>
+            <Popover
+                  open={Boolean(anchorTimeEl)}
+                  anchorEl={anchorTimeEl}
+                  onClose={handleTimeClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <div>
+                    <p className="popup-menu-header">Time Setting</p>
+                    <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Min</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                            label="Min"
+                          />
+                        </FormControl>
+                      </Grid>
+
+                      <Grid item xs={5.8} md={5.8}>
+                        <FormControl>
+                          <InputLabel htmlFor="outlined-adornment-amount">Max</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            size="small"
+                            startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                            label="Max"
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Popover>
+          </Grid>
+          <div style={style}>
+            <div style={{ width: "60%" }}>
               <GoogleMap
                 id="drawing-manager-example"
                 mapContainerStyle={mapContainerStyle}
@@ -311,42 +612,309 @@ const Dashboard = () => {
                   onMarkerComplete={onMarkerComplete}
                   onPolygonComplete={onPolygonComplete}
                 />
-                {dealInfo.map(
+                {filterData.map(
                   (
                     {
-                      name,
-                      accountno,
-                      address,
-                      latitude,
-                      longitude,
-                      phone,
-                      email,
-                      website,
+                      adressline,
+                      area,
+                      img,
+                      priceEUR,
+                      rooms,
+                      title,
+                      type,
+                      _id,
+                      x,
+                      y
                     },
                     index
                   ) => {
                     return (
                       <Marker
                         key={index}
-                        position={{ lat: latitude, lng: longitude }}
-                        name={name}
-                        accountno={accountno}
-                        address={address}
-                        phone={phone}
-                        email={email}
-                        website={website}
-                        sendSMS={sendSMS}
+                        position={{ lat: x, lng: y }}
+                        img={img}
+                        area={area}
+                        address={adressline}
+                        price={priceEUR}
+                        rooms={rooms}
+                        title={title}
+                        type={type}
+                        id={_id}
                       />
                     );
                   }
                 )}
               </GoogleMap>
             </div>
+            <div style={{ width: '40%', border: '1px solid grey', overflowY: 'auto' }}>
+              <div className="show-result">
+                <Typography gutterBottom variant="h6" component="div" style={{ fontWeight: 'bold', color: 'gray', textAlign: 'left', padding: '10px', marginTop: '10px' }}> Showing Result </Typography>
+                <Select
+                  // value={age}
+                  // onChange={handleChange}
+                  displayEmpty
+                  size="small"
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  style={{ float: 'right', marginRight: '10px', height: '40px' }}
+                >
+                  <MenuItem value={1}>Payment (High to Low)</MenuItem>
+                  <MenuItem value={2}>Payment (Low to High)</MenuItem>
+                  <MenuItem value={3}>Rooms</MenuItem>
+                  <MenuItem value={4}>Area</MenuItem>
+                </Select>
+              </div>
+              <Grid container spacing={1} sx={{ p: 1 }}>
+                <Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid>
+                <Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid><Grid item xs={6}>
+                  <Card>
+                    <a href="https://lt.balticsothebysrealty.com/en/real-estate/sell-apartment-vilniaus-apskritis-vilnius-pylimo-g-211470" target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image="https://balsir-ftp.scoro.com/Scoro/RealEstate/211470/wo_watermark/pylimo_19_46.jpg"
+                          alt="green iguana"
+                        />
+                        <CardContent style={{ textAlign: 'left' }}>
+                          <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
+                            156000 €
+                          </Typography>
+                          <Typography variant="p" color="text.secondary">
+                            1 Rooms | 26 m2
+                          </Typography>
+                          <Typography variant="h6" color="text.secondary" style={{ fontWeight: 'bold' }}>
+                            Vilnius, Senamiestis, Pylimo g.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                  </Card>
+                </Grid>
+              </Grid>
+            </div>
           </div>
         </>
-      )}
-    </LoadScript>
+      )
+      }
+    </LoadScript >
   );
 };
 
 export default Dashboard;
+

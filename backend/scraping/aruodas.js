@@ -62,8 +62,6 @@ const getDataAruodas = async () => {
     for (var i = 0; i < UrlList.length; i++) {
         let response = null;
         let pageLength = 1;
-        console.log('********************************');
-        console.log(UrlList[i]?.url);
         try {
             response = await gotScraping.get(UrlList[i]?.url + "1/", {http2: true, "headers": header});
             if (response.statusCode == 200) {

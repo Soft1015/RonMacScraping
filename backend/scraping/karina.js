@@ -51,15 +51,16 @@ const getDataKarina = async () => {
         }
         pages ++;
     }
-    if(scrapeData){
+    if(scrapeData.length > 0){
         insertMultiItems(scrapeData);
         console.log('done on Karina!!!!!');
     }
 };
 
 const getDetailOfRoom = async(dom) => {
-    let img, price, title, addr, bed, area;
+    let img, price, title, addr, bed, area, url;
     img = dom.querySelector('img').getAttribute('src');
+    url = dom.querySelector('a').getAttribute('href');
     price = dom.querySelector('ul.item-price-wrap > li').textContent.split("€")[0].replace(/\s/g, "");
     title = dom.querySelector('h2.item-title > a');
     addr = dom.querySelector('address').textContent;
@@ -76,7 +77,8 @@ const getDetailOfRoom = async(dom) => {
             rooms:bed ? bed?.textContent : "1",
             priceEUR:parseFloat(price),
             x:res?.[0].latitude,
-            y:res?.[0].longitude
+            y:res?.[0].longitude,
+            url:url
         };
         return obj;
     }

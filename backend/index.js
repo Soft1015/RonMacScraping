@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const { init } = require("./db");
 const { getData } = require("./scraping/ober-haus");
@@ -12,18 +13,19 @@ const { getDataKarina } = require('./scraping/karina');
 const routes = require("./routes");
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(routes);
 
 init().then( async() => {
-  console.log("starting server on port 3000");
-  app.listen(3000);
+  console.log("starting server on port 3300");
+  app.listen(3300);
   // await getData();
-  // await getDataCapital();
+  // await getDataBaltic();
   // await getDataRebaltic();
   // await getRemaxData();
   // await getDataAkorus();
   // await getDataKarina();
   // await getDataAruodas();
-  // await getDataBaltic();
+  await getDataCapital();
 });

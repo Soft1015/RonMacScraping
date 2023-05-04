@@ -31,11 +31,6 @@ router.post('/item', (req, res) => {
 router.get('/items', (req, res) => {
   getItems()
     .then((items) => {
-      items = items.map((item) => ({
-        id: item._id,
-        name: item.name,
-        quantity: item.quantity
-      }))
       res.json(items)
     })
     .catch((err) => {

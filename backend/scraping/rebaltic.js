@@ -62,7 +62,7 @@ const getDataRebaltic = async () => {
             console.log(err);
         }
     }
-    if(scrapeData){
+    if(scrapeData.length > 0){
         insertMultiItems(scrapeData);
         console.log('completed on Rebaltic!!!!!!!!!');
         browser.close();
@@ -83,6 +83,7 @@ const getDetailOfRoom = async (length, pay, type, typeIndex) => {
                 let details = dom.window.document.querySelectorAll("body > div.wrapper.page-wrapper > div > div.content.page-content > div > div > div.catalog-grid.catalog-grid > div");
                 for (let j = 0; j < details.length; j++) {
                     const img = details[j].querySelector('img');
+                    let link = details[j].querySelector('a').getAttribute('href');
                     let title = details[j].querySelector('div').querySelector('a');
                     const pElements = details[j].querySelector('div').querySelectorAll('p');
                     let price = details[j].querySelector('span');
@@ -92,7 +93,7 @@ const getDetailOfRoom = async (length, pay, type, typeIndex) => {
                     const addr = pElements[0]?.textContent;
                     const res = await geocoder.geocode(addr);
                     const area = pElements[1]?.textContent?.split('m²')[0].replace(/\s/g, "");
-                    const rooms = pElements[1]?.textContent?.split(',')[1].split('rooms')[0].replace(/\s/g, "");
+                    const rooms = pElements[1]?.textContent?.split(',').pop().split('rooms')[0].replace(/\s/g, "");
                     const obj = {
                         type:typeIndex,
                         adressline:addr,
@@ -102,7 +103,8 @@ const getDetailOfRoom = async (length, pay, type, typeIndex) => {
                         rooms:rooms ? rooms : "1",
                         priceEUR:number,
                         x:res?.[0].latitude,
-                        y:res?.[0].longitude
+                        y:res?.[0].longitude,
+                        url:"https://www.rebaltic.lt/" + link,
                     };
                     partData.push(obj);
                 }

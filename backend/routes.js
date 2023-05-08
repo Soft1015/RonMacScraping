@@ -1,23 +1,12 @@
 const express = require('express')
 const Joi = require('@hapi/joi')
-const { insertItem, getItems, updateQuantity } = require('./db')
-
+const { insertItem, getItems, updateTimer, getTimer } = require('./db')
+const { setFirstTimer, setSecondTimer } = require('./timer');
 const router = express.Router()
-
-const itemSchema = Joi.object().keys({
-  name: Joi.string(),
-  quantity: Joi.number().integer().min(0)
-})
 
 router.post('/item', (req, res) => {
   const item = req.body
   console.log(req.body)
-  const result = itemSchema.validate(item)
-  if (result.error) {
-    console.log(result.error)
-    res.status(400).end()
-    return
-  }
   insertItem(item)
     .then(() => {
       res.status(200).end()
@@ -39,9 +28,22 @@ router.get('/items', (req, res) => {
     })
 })
 
-router.put('/item/:id/quantity/:quantity', (req, res) => {
-  const { id, quantity } = req.params
-  updateQuantity(id, parseInt(quantity))
+router.get('/timer', (req, res) => {
+  getTimer()
+    .then((items) => {
+      res.json(items)
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(500).end()
+    })
+})
+
+router.post('/saveTime', (req, res) => {
+  console.log('saveTime');
+  setFirstTimer(req.body.Time1);
+  setSecondTimer(req.body.Time2);
+  updateTimer(req.body._id, req.body.Time1, req.body.Time2)
     .then(() => {
       res.status(200).end()
     })

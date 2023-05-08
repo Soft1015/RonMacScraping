@@ -91,7 +91,7 @@ const getDetailOfRoom = async (length, url, type) => {
                     priceEUR:number,
                     x:res?.[0].latitude,
                     y:res?.[0].longitude,
-                    url:"https://akorus.lt/" + link
+                    url:"https://akorus.lt" + link
                 };
                 partData.push(obj);
             }

@@ -12,7 +12,7 @@ const init = () =>
   })
 
 const insertItem = (item) => {
-  const collection = db.collection('items')
+  const collection = db.collection('time')
   return collection.insertOne(item)
 }
 
@@ -23,12 +23,21 @@ const insertMultiItems = (item) => {
 
 const getItems = () => {
   const collection = db.collection('items')
-  return collection.find({}).toArray()
+  return collection.find({}).toArray();
 }
 
-const updateQuantity = (id, quantity) => {
-  const collection = db.collection('items')
-  return collection.updateOne({ _id: ObjectId(id) }, { $inc: { quantity } })
+const updateTimer = (id, timer1, timer2) => {
+  const collection = db.collection('timer')
+  return collection.updateOne({ _id: ObjectId(id) }, { $set: { "timer1":timer1, "timer2":timer2 } })
+}
+const insertTimer = () => {
+  const collection = db.collection('timer')
+  return collection.insertOne({timer1:'00:00', timer2:'12:00'});
 }
 
-module.exports = { init, insertItem, getItems, insertMultiItems, updateQuantity }
+const getTimer = async () => {
+  const collection = db.collection('timer')
+  return collection.findOne({});
+}
+
+module.exports = { init, insertItem, getItems, insertMultiItems, updateTimer, getTimer, insertTimer }

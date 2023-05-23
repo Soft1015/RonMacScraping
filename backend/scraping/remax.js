@@ -8,18 +8,18 @@ const UrlList = [
     url: "https://www.remax.lt/zemelapis?order=&search=1&type=apartment-sell&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=",
     type: "0",
   },
-    {
-        url: 'https://www.remax.lt/zemelapis?order=&search=1&type=house-sell&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
-        type:'1'
-    },
-    {
-        url: 'https://www.remax.lt/zemelapis?order=&search=1&type=apartment-rent&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
-        type:'2'
-    },
-    {
-        url: 'https://www.remax.lt/zemelapis?order=&search=1&type=house-rent&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
-        type:'3'
-    }
+  {
+    url: 'https://www.remax.lt/zemelapis?order=&search=1&type=house-sell&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
+    type: '1'
+  },
+  {
+    url: 'https://www.remax.lt/zemelapis?order=&search=1&type=apartment-rent&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
+    type: '2'
+  },
+  // {
+  //   url: 'https://www.remax.lt/zemelapis?order=&search=1&type=house-rent&region=0&quartal=&district=&street=&rooms_from=&rooms_to=&area_from=&area_to=&price_from=&price_to=&detailed=1&floor_from=&floor_to=&year_from=&year_to=&price_area_from=&price_area_to=&page=',
+  //   type: '3'
+  // }
 ];
 
 const getRemaxData = async () => {
@@ -28,28 +28,29 @@ const getRemaxData = async () => {
     let response = null;
     try {
       response = await fetch(UrlList[i]?.url + "1");
+
+      const result = await response.text();
+      const dom = new JSDOM(result);
+      let length = dom.window.document.querySelector(
+        "body > div.site > div.site-center.bg-grey > section.map-section > div.map-section__list > div:nth-child(2) > div > div.map-list__title > strong"
+      );
+      let val = await getDetailOfRoom(length.textContent, UrlList[i].url, UrlList[i].type);
+      scrapeData = scrapeData.concat(val);
     } catch (err) {
       console.log(err);
     }
-    const result = await response.text();
-    const dom = new JSDOM(result);
-    let length = dom.window.document.querySelector(
-      "body > div.site > div.site-center.bg-grey > section.map-section > div.map-section__list > div:nth-child(2) > div > div.map-list__title > strong"
-    );
-    let val = await getDetailOfRoom(length.textContent, UrlList[i].url, UrlList[i].type);
-    scrapeData = scrapeData.concat(val);
   }
 
-  if(scrapeData.length > 0){
-      insertMultiItems(scrapeData);
-      console.log('completed on Remax!!!!!!!!!');
+  if (scrapeData.length > 0) {
+    insertMultiItems(scrapeData);
+    console.log('completed on Remax!!!!!!!!!');
   }
 };
 
 const getDetailOfRoom = async (length, url, type) => {
   let partData = [];
   for (let i = 0; i < length / unitLen; i++) {
-    console.log("processing: " + (i + 1) + " of " + Math.ceil(length / unitLen) +" on Remax" );
+    console.log("processing: " + (i + 1) + " of " + Math.ceil(length / unitLen) + " on Remax");
     let response = null;
     try {
       response = await fetch(url + (i + 1));
@@ -111,7 +112,7 @@ const getDetailOfRoom = async (length, url, type) => {
             break;
         }
         let addr = items[j].querySelector("div:nth-child(2) > div:nth-child(2)").textContent.replace(/(\r\n|\n|\r|\t)/gm, "");
-        let price = items[j].querySelector( "div:nth-child(2) > div:nth-child(3)").textContent;
+        let price = items[j].querySelector("div:nth-child(2) > div:nth-child(3)").textContent;
         const match = price.split("€")[0].replace(/\s/g, "");
         const number = parseFloat(match);
         if (area) {
@@ -119,7 +120,7 @@ const getDetailOfRoom = async (length, url, type) => {
           area = area.split("m²")[0];
         }
         addr = addr.match(addrRegex)[1];
-        if(rooms.includes('m')) rooms = "1";
+        if (rooms.includes('m')) rooms = "1";
         //insert detail to obj
         obj.type = type;
         obj.adressline = addr.replace(/\s+/g, " ");
@@ -138,13 +139,13 @@ const getDetailOfRoom = async (length, url, type) => {
       newItem.sort(function (a, b) {
         return a.priceEUR - b.priceEUR;
       });
-      for(let j = 0; j < posDetail.length; j ++){
+      for (let j = 0; j < posDetail.length; j++) {
         newItem[j].x = posDetail[j].lat;
         newItem[j].y = posDetail[j].lon;
       }
       partData = partData.concat(newItem);
     } catch (error) {
-    //   console.log(error);
+      //   console.log(error);
     }
   }
   return partData;

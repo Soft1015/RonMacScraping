@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { GoogleMap, LoadScript, DrawingManager } from "@react-google-maps/api";
 import Marker from "./marker"
+import logo from './imgs/logo.webp';
 import {
   Select,
   MenuItem,
@@ -17,7 +18,10 @@ import {
   Typography,
   CardActionArea,
   IconButton,
-  Pagination
+  Pagination,
+  Switch,
+  FormControlLabel,
+  Slider
 } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -34,7 +38,7 @@ const mapContainerStyle = {
 
 const style = {
   display: "flex",
-  height: "86vh",
+  height: "80vh",
 };
 
 /*
@@ -71,6 +75,7 @@ const options = {
 /**end */
 const maxLength = 5;
 const pagUnitLengh = 40;
+const unitRequestLength = 200;
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setLoadingState] = useState(true);
@@ -93,11 +98,10 @@ const Dashboard = () => {
           rooms,
           title,
           type,
-          _id,
+          id,
           x,
           y,
-          url,
-          id
+          url
         },
         index
       ) => {
@@ -128,7 +132,7 @@ const Dashboard = () => {
     fetch("http://localhost:3300/items")
       .then((response) => response.json())
       .then(async (data) => {
-        const launchOptimistic = data.map(elem => (
+        const allData = data.map(elem => (
           {
             title: elem.title,
             x: parseFloat(elem.x),
@@ -136,43 +140,50 @@ const Dashboard = () => {
             area: parseFloat(elem.area),
             rooms: parseFloat(elem.rooms),
             img: elem.img,
-            priceEUR: parseFloat(elem.priceEUR ? elem.priceEUR : 0),
-            adressline: elem.adressline,
+            priceEUR: parseFloat(elem.priceEUR != "NaN" ? elem.priceEUR : 0),
+            adressline: elem.adressline ? elem.adressline : "",
             url: elem.url,
             type: parseInt(elem.type),
             id: elem._id,
           }
         ));
-
-        const promises = [];
-        launchOptimistic.forEach(item => {
-          const { x, y } = item;
-          const params = `latlng=${x},${y}&key=${apiKey}`;
-          const url = `${endpoint}?${params}`;
-          const promise = fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              let city = null;
-              data.results.forEach(result => {
-                result.address_components.forEach(component => {
-                  if (component.types.includes('locality')) {
-                    city = component.long_name;
+        let newArray = [];
+        for (let i = 0; i <= allData.length / unitRequestLength; i++) {
+          const max = allData.length >= (i + 1) * unitRequestLength ? (i + 1) * unitRequestLength : allData.length;
+          const min = i * unitRequestLength;
+          const launchOptimistic = allData.slice(min, max);
+          const promises = [];
+          launchOptimistic.forEach(item => {
+            const { x, y } = item;
+            const params = `latlng=${x},${y}&key=${apiKey}`;
+            const url = `${endpoint}?${params}`;
+            const promise = fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                let city = null;
+                let found = false;
+                for (let j = 0; j < data.results.length; j++) {
+                  if (found) break;
+                  for (let k = 0; k < data.results[j].address_components.length; k++) {
+                    if (data.results[j].address_components[k].types.includes('locality')) {
+                      city = data.results[j].address_components[k].long_name;
+                      found = true;
+                      break;
+                    }
                   }
-                });
-              });
-              item.city = city; // Add the city name to the position object
-              return item;
-            })
-            .catch(error => console.log(error));
-          promises.push(promise);
-        });
-        Promise.all(promises)
-          .then(positions => {
-            setFlatInfo(positions);
-            setFilterData(positions);
-          })
-          .catch(error => console.log(error));
-        //get Timer
+                }
+                item.city = city; // Add the city name to the position object
+                newArray.push(item);
+              })
+              .catch(error => console.log(error));
+            promises.push(promise);
+          });
+          await Promise.all(promises);
+        }
+        const rent = newArray.filter((item => item.type == '2' && item.type == '3'));
+        console.log(rent);
+        setFlatInfo(newArray);
+        setFilterData(newArray);
         const res = await fetch("http://localhost:3300/timer");
         const time = await res.json();//assuming data is json
         set1Timer(time.timer1);
@@ -207,7 +218,25 @@ const Dashboard = () => {
 
   useEffect(() => {
     getData();
+    loadSetting();
   }, []);
+
+  const loadSetting = () => {
+    setAppreciateRate(localStorage.getItem('appreciateRate'));
+    setPropertyTaxRate(localStorage.getItem('propertyTaxRate'));
+    setCapex(localStorage.getItem('capex'));
+    setMaintenanceCost(localStorage.getItem('maintenanceCost'));
+    setMortgage(localStorage.getItem('mortgage') == 'true' ? true : false);
+    setInterest(localStorage.getItem('interestOnly') == 'true' ? true : false);
+    setLoanTerm(localStorage.getItem('loanTerm'));
+    setLoan2ValRatio(localStorage.getItem('loan2ValRatio'));
+
+    setAcqCost(localStorage.getItem('acqCost'));
+    setDivestmentCost(localStorage.getItem('divestmentCost'));
+    setLoanAmount(localStorage.getItem('loanAmount'));
+    setInterestRate(localStorage.getItem('interestRate'));
+    setInvestmentPeriod(localStorage.getItem('investmentPeriod'));
+  }
 
   /**
    * Menu
@@ -288,6 +317,34 @@ const Dashboard = () => {
   const handleTimeClick = (event) => {
     setAnchorTimeEl(event.currentTarget);
   };
+  //Detail Setting
+  const [anchorDetailEl, setAnchorDetailEl] = useState(null);
+  const handleDetailClose = () => {
+    setAnchorDetailEl(null);
+  };
+
+  const handleDetailClick = (event) => {
+    setAnchorDetailEl(event.currentTarget);
+  };
+
+  // Mortgage Variables
+  const [mortgage, setMortgage] = useState(false);
+  //interest_only
+  const [interestOnly, setInterest] = useState(true);
+
+  const [appreciateRate, setAppreciateRate] = useState(0);
+  const [propertyTaxRate, setPropertyTaxRate] = useState(0);
+  const [capex, setCapex] = useState(0);
+  const [maintenanceCost, setMaintenanceCost] = useState(0);
+  const [acqCost, setAcqCost] = useState(0);
+  const [divestmentCost, setDivestmentCost] = useState(0);
+  const [loanTerm, setLoanTerm] = useState(0);
+  const [loan2ValRatio, setLoan2ValRatio] = useState(0);
+  const [loanAmount, setLoanAmount] = useState(0);
+  const [interestRate, setInterestRate] = useState(0);
+  const [investmentPeriod, setInvestmentPeriod] = useState(0);
+  const [rangeDistance, setRangeDistance] = useState(1);
+
   //time setting(scraping)
   const timeSlots = Array.from(new Array(24)).map(
     (_, index) => `${index < 10 ? '0' : ''}${index}:00`
@@ -319,6 +376,7 @@ const Dashboard = () => {
   }, [currentID]);
 
   useEffect(() => {
+    console.log('open changed');
     if (open == false) {
       setCurrentID('');
     }
@@ -422,17 +480,17 @@ const Dashboard = () => {
 
   const onSearch = () => {
     let newArray = [];
-    newArray = filterData.filter((item) => parseInt(item.type) == propertyType);
+    newArray = homeData.filter((item) => parseInt(item.type) == propertyType);
     newArray = newArray.filter((item) => {
-      if (maxPrice != "") {
+      if (maxPrice != "" && parseFloat(maxPrice) != 0) {
         return item.priceEUR >= parseFloat(minPrice) && item.priceEUR <= parseFloat(maxPrice);
       } else {
-        return item.priceEUR > parseFloat(minPrice);
+        return item.priceEUR >= parseFloat(minPrice);
       }
     });
 
     newArray = newArray.filter((item) => {
-      if (maxArea != "") {
+      if (maxArea != "" && parseFloat(maxArea) != 0) {
         return item.area >= parseFloat(minArea) && item.area <= parseFloat(maxArea);
       } else {
         return item.area > parseFloat(minArea);
@@ -440,7 +498,7 @@ const Dashboard = () => {
     });
 
     newArray = newArray.filter((item) => {
-      if (maxRmNum != "") {
+      if (maxRmNum != "" && parseFloat(maxRmNum) != 0) {
         return item.rooms >= parseInt(minRmNum) && item.rooms <= parseInt(maxRmNum);
       } else {
         return item.rooms > parseInt(minRmNum);
@@ -462,7 +520,7 @@ const Dashboard = () => {
       </div>
     ) : (
       <>
-        <h2>Google Map Dealer</h2>
+        <img src={logo} alt="image not found" style={{ marginTop: '10px' }} />
         <hr />
         <Grid container spacing={0.5} sx={{ p: 1 }}>
           <Grid xs={1.3} sx={{ ml: 1.5 }}>
@@ -612,6 +670,7 @@ const Dashboard = () => {
                           size="small"
                           type="number"
                           value={minArea}
+                          max={maxArea}
                           onChange={onChangeMinArea}
                           startAdornment={<InputAdornment position="start">m²</InputAdornment>}
                           label="Min"
@@ -627,6 +686,7 @@ const Dashboard = () => {
                           size="small"
                           type="number"
                           value={maxArea}
+                          min={minArea}
                           onChange={onChangeMaxArea}
                           startAdornment={<InputAdornment position="start">m²</InputAdornment>}
                           label="Max"
@@ -647,6 +707,262 @@ const Dashboard = () => {
               value={location}
               onChange={onChangeLocation}
             />
+          </Grid>
+          <Grid xs={1} sx={{ ml: 1.5 }}>
+            <div>
+              <Button
+                variant="outlined"
+                style={{ height: '40px', color: 'black', fontWeight: 'normal', borderColor: 'gray', width: '100%', justifyContent: 'space-between' }}
+                onClick={handleDetailClick}
+                endIcon={<KeyboardArrowDownIcon />}
+              >
+                Setting
+              </Button>
+              <Popover
+                open={Boolean(anchorDetailEl)}
+                anchorEl={anchorDetailEl}
+                onClose={handleDetailClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <div>
+                  <p className="popup-menu-header">Setting</p>
+                  <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                    <Grid item xs={5.8} md={5.8}>
+                      <FormControl>
+                        <InputLabel htmlFor="outlined-adornment-amount">Appreciation Rate</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          size="small"
+                          value={appreciateRate}
+                          type="number"
+                          onChange={(e) => {
+                            setAppreciateRate(e.target.value);
+                            localStorage.setItem('appreciateRate', e.target.value);
+                          }}
+                          startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                          label="Appreciation Rate"
+                        />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={5.8} md={5.8}>
+                      <FormControl>
+                        <InputLabel htmlFor="outlined-adornment-amount">Property Tax Rate</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          size="small"
+                          type="number"
+                          value={propertyTaxRate}
+                          onChange={(e) => {
+                            setPropertyTaxRate(e.target.value);
+                            localStorage.setItem('propertyTaxRate', e.target.value);
+                          }}
+                          startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                          label="Property Tax Rate"
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                    <Grid item xs={12} md={12}>
+                      <FormControl fullWidth>
+                        <InputLabel htmlFor="outlined-adornment-amount">Investment Period</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          size="small"
+                          value={investmentPeriod}
+                          type="number"
+                          onChange={(e) => {
+                            setInvestmentPeriod(e.target.value);
+                            localStorage.setItem('investmentPeriod', e.target.value);
+                          }}
+                          label="Investment Period"
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                    <Grid item xs={5.8} md={5.8}>
+                      <FormControl>
+                        <InputLabel htmlFor="outlined-adornment-amount">Capex</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          size="small"
+                          value={capex}
+                          type="number"
+                          onChange={(e) => {
+                            setCapex(e.target.value);
+                            localStorage.setItem('capex', e.target.value);
+                          }}
+                          label="Capex"
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item xs={5.8} md={5.8}>
+                      <FormControl>
+                        <InputLabel htmlFor="outlined-adornment-amount">Maintenance Cost</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          size="small"
+                          type="number"
+                          value={maintenanceCost}
+                          onChange={(e) => {
+                            setMaintenanceCost(e.target.value);
+                            localStorage.setItem('maintenanceCost', e.target.value);
+                          }}
+                          label="Maintenance Cost"
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                    <Grid item xs={5.8} md={5.8}>
+                      <FormControl>
+                        <InputLabel htmlFor="outlined-adornment-amount">Acquisition Cost</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          size="small"
+                          value={acqCost}
+                          type="number"
+                          onChange={(e) => {
+                            setAcqCost(e.target.value);
+                            localStorage.setItem('acqCost', e.target.value);
+                          }}
+                          label="Acquisition Cost"
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item xs={5.8} md={5.8}>
+                      <FormControl>
+                        <InputLabel htmlFor="outlined-adornment-amount">Divestment Cost</InputLabel>
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          size="small"
+                          type="number"
+                          value={divestmentCost}
+                          onChange={(e) => {
+                            setDivestmentCost(e.target.value);
+                            localStorage.setItem('divestmentCost', e.target.value);
+                          }}
+                          label="Divestment Cost"
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid container style={{ justifyContent: 'space-between' }} sx={{ px: 1.5 }} className="popup-menu-header">
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={mortgage}
+                          onChange={(e) => {
+                            setMortgage(e.target.checked);
+                            localStorage.setItem('mortgage', e.target.checked);
+                          }}
+                          aria-label="login switch"
+                        />
+                      }
+                      label='Mortgage'
+                    />
+                  </Grid>
+                  {mortgage ? (
+                    <>
+                      <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }}>
+                        <Grid item xs={5.8} md={5.8}>
+                          <FormControl>
+                            <InputLabel htmlFor="outlined-adornment-amount">Loan Amount</InputLabel>
+                            <OutlinedInput
+                              id="outlined-adornment-amount"
+                              size="small"
+                              type="number"
+                              value={loanAmount}
+                              onChange={(e) => {
+                                setLoanAmount(e.target.value);
+                                localStorage.setItem('loanAmount', e.target.value);
+                              }}
+                              label="Loan Amount"
+                            />
+                          </FormControl>
+                        </Grid>
+
+                        <Grid item xs={5.8} md={5.8}>
+                          <FormControl>
+                            <InputLabel htmlFor="outlined-adornment-amount">Interest Rate</InputLabel>
+                            <OutlinedInput
+                              id="outlined-adornment-amount"
+                              size="small"
+                              type="number"
+                              value={interestRate}
+                              onChange={(e) => {
+                                setInterestRate(e.target.value);
+                                localStorage.setItem('interestRate', e.target.value);
+                              }}
+                              startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                              label="Interest Rate"
+                            />
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                      <Grid container style={{ justifyContent: 'space-between' }} sx={{ px: 1.5 }} className="popup-menu-header">
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={interestOnly}
+                              onChange={(e) => {
+                                setInterest(e.target.checked);
+                                localStorage.setItem('interestOnly', e.target.checked);
+                              }}
+                              aria-label="login switch"
+                            />
+                          }
+                          label='Interest Only'
+                        />
+                      </Grid>
+                      <>
+                        <Grid container style={{ justifyContent: 'space-between' }} sx={{ p: 1.5 }} >
+                          <Grid item xs={5.8} md={5.8}>
+                            <FormControl>
+                              <InputLabel htmlFor="outlined-adornment-amount">Loan Term</InputLabel>
+                              <OutlinedInput
+                                id="outlined-adornment-amount"
+                                size="small"
+                                value={loanTerm}
+                                type="number"
+                                onChange={(e) => {
+                                  setLoanTerm(e.target.value);
+                                  localStorage.setItem('loanTerm', e.target.value);
+                                }}
+                                label="Loan Term"
+                              />
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={5.8} md={5.8}>
+                            <FormControl>
+                              <InputLabel htmlFor="outlined-adornment-amount">Loan-2-Value Ratio</InputLabel>
+                              <OutlinedInput
+                                id="outlined-adornment-amount"
+                                size="small"
+                                type="number"
+                                value={loan2ValRatio}
+                                onChange={(e) => {
+                                  setLoan2ValRatio(e.target.value);
+                                  localStorage.setItem('loan2ValRatio', e.target.value);
+                                }}
+                                startAdornment={<InputAdornment position="start">%</InputAdornment>}
+                                label="Loan-2-Value Ratio"
+                              />
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+                      </>
+                    </>
+                  ) : (<></>)}
+                </div>
+              </Popover>
+            </div>
           </Grid>
           <Button sx={{ ml: 1.5 }} variant="outlined" style={{ color: 'black', fontWeight: 'normal', borderColor: 'gray' }} startIcon={<SearchIcon />} onClick={onSearch}>
             Search
@@ -720,6 +1036,10 @@ const Dashboard = () => {
               </Grid>
             </div>
           </Popover>
+          <Typography gutterBottom style={{marginLeft:'10px'}}>Range(km)</Typography>
+          <Grid xs={1} sx={{ ml: 1.5 }}>
+            <Slider value={rangeDistance} onChange={(e, num) => setRangeDistance(num)} defaultValue={1} aria-label="Default" valueLabelDisplay="auto" step={0.1} min={1} max={10} />
+          </Grid>
         </Grid>
         <div style={style}>
           <div style={{ width: "60%" }}>
@@ -772,7 +1092,27 @@ const Dashboard = () => {
                 <Grid container spacing={1} sx={{ p: 1 }}>
                   {filterDetails}
                 </Grid>
-                <CustomizedDialog open={open} handleClose={setOpen} data={detailData} id={currentID} showDetail={setCurrentID} />
+                {open ? (<CustomizedDialog
+                  open={open}
+                  handleClose={setOpen}
+                  data={homeData}
+                  id={currentID}
+                  showDetail={setCurrentID}
+                  rangeDistance={rangeDistance}
+                  appreciateRate={appreciateRate}
+                  propertyTaxRate={propertyTaxRate}
+                  capex={capex}
+                  maintenanceCost={maintenanceCost}
+                  acqCost={acqCost}
+                  divestmentCost={divestmentCost}
+                  loanTerm={loanTerm}
+                  loan2ValRatio={loan2ValRatio}
+                  loanAmount={loanAmount}
+                  interestRate={interestRate}
+                  mortgage={mortgage}
+                  interestOnly={interestOnly}
+                  investmentPeriod={investmentPeriod}
+                />) : (<></>)}
                 <Pagination count={Math.ceil(detailData.length / pagUnitLengh)} onChange={(e, page) => setCurrentPage(page)} page={currentPage} color="primary" style={{ display: 'flex', justifyContent: 'center' }} />
               </div>
             )

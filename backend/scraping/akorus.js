@@ -9,11 +9,11 @@ const UrlList = [
         type: '0'
     },
     {
-        url: 'https://akorus.lt/nekilnojamas-turtas?deal_type=2',
+        url: 'https://akorus.lt/nekilnojamas-turtas?deal_type=3',
         type: '1'
     },
     {
-        url: 'https://akorus.lt/nekilnojamas-turtas?deal_type=3',
+        url: 'https://akorus.lt/nekilnojamas-turtas?deal_type=2',
         type: '2'
     },
     {

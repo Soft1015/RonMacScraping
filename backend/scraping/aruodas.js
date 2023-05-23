@@ -39,7 +39,8 @@ const options = {
     formatter: null // 'gpx', 'string', ...
 };
 const geocoder = NodeGeocoder(options);
-
+const maxVersion = 10;
+const unitDetail = "div.item-description-v";
 let browser = null;
 puppeteer.use(StealthPlugin());
 puppeteer.use(
@@ -54,8 +55,10 @@ puppeteer.use(
 const getDataAruodas = async () => {
 
     let scrapeData = [];
+    // const browserFetcher = puppeteer.createBrowserFetcher();
+    // let revisionInfo = await browserFetcher.download('1108766');
     browser = await puppeteer.launch({ executablePath: executablePath(), headless: false });
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < UrlList.length; i++) {
         let pageLength = 1;
         try {
             console.log('dd');
@@ -73,14 +76,14 @@ const getDataAruodas = async () => {
                     await page.close();
                     let val = await getDetailOfRoom(pageLength, UrlList[i].url, UrlList[i].type, UrlList[i].go2Page);
                     scrapeData = scrapeData.concat(val);
-            });
+                });
 
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     }
     if (scrapeData.length > 0) {
-        // insertMultiItems(scrapeData);
+        insertMultiItems(scrapeData);
         browser.close();
         console.log('completed on Aruodas!!!!!!!!!');
     }
@@ -88,99 +91,63 @@ const getDataAruodas = async () => {
 
 const getDetailOfRoom = async (length, url, type, go2Page) => {
     let partData = [];
+    const page = await browser.newPage();
     for (let i = 0 + 1; i <= length; i++) {
         console.log("processing: " + i + " of " + length + " on Aruodas");
         try {
-            const page = await browser.newPage();
             await page.goto(url + `${i}/`, { waitUntil: 'load', timeout: 0 });
-            // await page.solveRecaptchas();
             await page.waitForSelector('#divBodyContainer > div.body-content-container.min-320 > div.nav-toolbar-v2')
                 .then(async () => {
                     const html = await page.content();
                     const dom = new JSDOM(html);
                     let details = dom.window.document.querySelectorAll("#divBodyContainer > div.body-content-container.min-320 > ul.search-result-list-big_thumbs li.result-item-big-thumb");
                     const addrRegex = /^\s*(.*?)\s*$/;
-                    // var allPromises = [];
-                    console.log('222222222222');
+                    var allPromises = [];
                     for (let j = 0; j < details.length; j++) {
                         let imgSrc = "", addr, area, price, rooms, detail;
                         let res;
                         imgSrc = details[j].querySelector('img').getAttribute('src');
-                        // console.log(imgSrc);
-                        // addr = details[j].querySelector('span > span.item-address-v3').textContent.replace(/(\r\n|\n|\r|\t)/gm, "");
-                        // addr = addr.match(addrRegex)[1];
-                        // detail = details[j].querySelector('span > span.item-description-v3').textContent.replace(/(\r\n|\n|\r|\t)/gm, "");
-                        // price = details[j].querySelector('span > span.item-price-main-v3');
-                        // const match = price?.textContent.split("€")[0].replace(/\s/g, "");
-                        // const number = parseFloat(match);
-                        // if (go2Page) {
-                        //     let link = details[j].querySelector('a').getAttribute('href');
-                        //     const page1 = await browser.newPage();
-                        //     await page1.goto(link, { waitUntil: 'load', timeout: 0 });
-                        //     const html1 = await page1.content();
-                        //     const detailDom = new JSDOM(html1);
-                        //     let x, y;
-                        //     console.log(detailDom);
-                        //     let map = detailDom.window.document.querySelector('#divBodyContainer > div.body-content-container > div > div.show-map-line-wrapper > a.show-map-line-inner');
-                        //     map = map.getAttribute('href').split("query=")[1];
-                        //     x = parseFloat(map.split("C")[0]);
-                        //     y = parseFloat(map.split("C")[1]);
-                        //     const dl = detailDom.window.document.querySelector('#advertInfoContainer > dl');
-                        //     const dt = dl.querySelectorAll('dt');
-                        //     const dd = dl.querySelectorAll('dd');
-                        //     let roomIndex = -1, areaIndex = -1;
-                        //     for (let k = 0; k < dt.length; k++) {
-                        //         if (dt[k].textContent.includes('Number of rooms')) {
-                        //             roomIndex = k;
-                        //         }
-                        //         if (dt[k].textContent.includes('Area')) {
-                        //             areaIndex = k;
-                        //         }
-                        //     }
-                        //     const obj = {
-                        //         type: type,
-                        //         adressline: addr,
-                        //         title: '',
-                        //         img: imgSrc,
-                        //         area: dd[areaIndex] ? dd[areaIndex].textContent.split("m²")[0].replace(",", ".").replace(/\s/g, "") : '1',
-                        //         rooms: dd[roomIndex] ? dd[roomIndex].textContent.replace(/\s/g, "") : '1',
-                        //         priceEUR: number,
-                        //         x: x,
-                        //         y: y
-                        //     };
-                        //     console.log(obj);
-                        //     partData.push(obj);
-                        // } else {
-                        //     detail = detail.match(addrRegex)[1];
-                        //     detail = detail.split('m²')[0];
-                        //     rooms = detail.split('rooms')[0].replace(/\s/g, "");
-                        //     area = detail.split('rooms')[1].slice('1').replace(",", ".").replace(/\s/g, "");
-                        //     res = geocoder.geocode(addr).then((cooder) => {
-                        //         const obj = {
-                        //             type: type,
-                        //             adressline: addr,
-                        //             title: '',
-                        //             img: imgSrc,
-                        //             area: area ? area : "1",
-                        //             rooms: rooms ? rooms : "1",
-                        //             priceEUR: number,
-                        //             x: cooder?.[0].latitude,
-                        //             y: cooder?.[0].longitude
-                        //         };
-                        //         console.log(obj);
-                        //         partData.push(obj);
-                        //     });
-                        // }
-                        // allPromises.push(res);
+                        const link = details[j].querySelector('a').getAttribute('href');
+                        price = details[j].querySelector('div.price-flex > span > span.price-main');
+                        const match = price?.textContent.split("€")[0].replace(/\s/g, "");
+                        const number = parseFloat(match);
+                        addr = details[j].querySelector('span > div:nth-child(2)').textContent.replace(/(\r\n|\n|\r|\t)/gm, "");
+                        addr = addr.match(addrRegex)[1];
+                        let currenVersion = 2;
+                        while (!detail) {
+                            if (currenVersion == maxVersion) {
+                                break;
+                            }
+                            detail = details[j].querySelector('div.item-description-v' + currenVersion);
+                            currenVersion++;
+                        }
+                        detail = detail.textContent.replace(/(\r\n|\n|\r|\t)/gm, "");
+                        rooms = detail.split('|')[0].split('rooms')[0].replace(/\s/g, "");
+                        area = detail.split('|')[1].split('m²')[0].replace(",", ".").replace(/\s/g, "");
+                        res = geocoder.geocode(addr).then((cooder) => {
+                            const obj = {
+                                type: type,
+                                adressline: addr,
+                                title: '',
+                                img: imgSrc,
+                                area: area ? area : "1",
+                                rooms: rooms ? rooms : "1",
+                                priceEUR: number,
+                                x: cooder?.[0].latitude,
+                                y: cooder?.[0].longitude,
+                                url:link,
+                            };
+                            partData.push(obj);
+                        });
+                        allPromises.push(res);
                     }
-                    // await Promise.all(allPromises);
-                    await page.close();
+                    await Promise.all(allPromises);
                 }).catch(e => console.log(e));
-            console.log('done')
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     }
+    await page.close();
     return partData;
 };
 

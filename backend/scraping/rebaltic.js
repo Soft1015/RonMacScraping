@@ -2,7 +2,10 @@ const fetch = require("node-fetch");
 const { JSDOM } = require("jsdom");
 const { insertMultiItems } = require('../db')
 const fs = require('fs');
-const puppeteer = require('puppeteer');
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const puppeteer = require('puppeteer-extra');
+const RecaptchaPlugin = require("puppeteer-extra-plugin-recaptcha");
+const { executablePath } = require("puppeteer");
 const NodeGeocoder = require('node-geocoder');
 
 const UrlList = [
@@ -37,11 +40,12 @@ const options = {
 };
 const geocoder = NodeGeocoder(options);
 let browser = null;
+puppeteer.use(StealthPlugin());
 const getDataRebaltic = async () => {
 
     let scrapeData = [];
     try {
-        browser = await puppeteer.launch({ headless: false });
+        browser = await puppeteer.launch({ executablePath: executablePath(), headless: false });
         for (var i = 0; i < UrlList.length; i++) {
             let pageLength = 1;
             const page = await browser.newPage();

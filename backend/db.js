@@ -1,6 +1,6 @@
 const { MongoClient, ObjectId } = require('mongodb')
 
-const connectionUrl = 'mongodb://localhost:27017'
+const connectionUrl = 'mongodb://127.0.0.1:27017'
 const dbName = 'db_scrape'
 
 let db
@@ -28,11 +28,11 @@ const getItems = () => {
 
 const updateTimer = (id, timer1, timer2) => {
   const collection = db.collection('timer')
-  return collection.updateOne({ _id: ObjectId(id) }, { $set: { "timer1":timer1, "timer2":timer2 } })
+  return collection.updateOne({ _id: ObjectId(id) }, { $set: { "timer1": timer1, "timer2": timer2 } })
 }
 const insertTimer = () => {
   const collection = db.collection('timer')
-  return collection.insertOne({timer1:'00:00', timer2:'12:00'});
+  return collection.insertOne({ timer1: '00:00', timer2: '12:00' });
 }
 
 const getTimer = async () => {
@@ -40,4 +40,14 @@ const getTimer = async () => {
   return collection.findOne({});
 }
 
-module.exports = { init, insertItem, getItems, insertMultiItems, updateTimer, getTimer, insertTimer }
+const deleteItemTable = () => {
+  db.dropCollection("items", function (err) {
+    if (!err) {
+      console.log("items" + " dropped");
+    } else {
+      console.log("!ERROR! " + err.errmsg);
+    }
+  });
+}
+
+module.exports = { init, insertItem, getItems, insertMultiItems, updateTimer, getTimer, insertTimer, deleteItemTable }

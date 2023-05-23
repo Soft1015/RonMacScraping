@@ -26,7 +26,6 @@ const UrlList = [
 ];
 
 const getDataCapital = async () => {
-
     let scrapeData = [];
     console.log('process Capital');
     for (var i = 0; i < UrlList.length; i++) {
@@ -64,15 +63,16 @@ const getDataCapital = async () => {
                                 rooms: rooms.textContent,
                                 url: photo.getAttribute('href'),
                             }
+                            console.log(obj);
                             scrapeData.push(obj);
                         }
                     })
                     .catch((error) => {
-                        //   console.error(error);
+                          console.error(error);
                     });
             }
         } catch (err) {
-            // console.log(err);    
+            console.log(err);    
         }
     }
     if (scrapeData.length > 0) {
